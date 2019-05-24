@@ -10,6 +10,9 @@ const ALL_BLIPS_QUERY = gql`
       score
       desc
     }
+    uiState @client {
+      skipQueries
+    }
   }
 `
 const UPDATE_STATE = gql`
@@ -56,16 +59,15 @@ class Radar extends Component {
   render() {
     return (
       <Mutation mutation={UPDATE_STATE}>
-        {updateState => {
-          // setTimeout(() => updateState({ variables: { state: 'UNAUTHORIZED' } }), 4000)
+        {(updateState, { data }) => {
+          data = data || { updateState: {} }
+          console.log('da----------------------ta')
+          console.log(data.updateState.skipQueries)
           return (
             <Query query={ALL_BLIPS_QUERY}
                    onCompleted={() => updateState({ variables: { state: 'SOME_LOADING_COMPLETED' } })}
-                   // onError={(error) => {
-                   //   console.log(error)
-                   //   updateState({ variables: { state: 'UNAUTHORIZED' } })
-                   // }}
-                   >
+                   onError={() => updateState({ variables: { state: 'UNAUTHORIZED' } })}
+                   skip={data.updateState.skipQueries || false}>
               {
                 ({ loading, error, data, client }) => {
                   let blips = defaultBlipsData
@@ -73,8 +75,10 @@ class Radar extends Component {
                     blips = data.allBlips
                   }
                   console.log('Radar rendering')
+                  console.log(data)
 
                   if (loading) {
+                    console.log('loading')
                     // updateState({ variables: { state: 'LOADING' } })
                     // setTimeout(() => updateState({ variables: { state: 'LOADING' } }), 1)
                   }
@@ -88,6 +92,7 @@ class Radar extends Component {
               }
             </Query>
           )
+
         }}
       </Mutation>
     )

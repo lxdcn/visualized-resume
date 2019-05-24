@@ -1,6 +1,17 @@
 import React, { Component } from 'react'
+import { Query, ApolloConsumer } from 'react-apollo'
+import gql from 'graphql-tag'
 
 import Radar from '../Radar'
+import LoginCover from '../LoginCover'
+
+const UI_STATE = gql`
+  query {
+    uiState @client {
+      state
+    }
+  }
+`
 
 class App extends Component {
   componentDidMount() {
@@ -12,7 +23,10 @@ class App extends Component {
 
   render() {
     return (
-      <Radar />
+      <div>
+        <LoginCover />
+        <Radar />
+      </div>
     )
   }
 }

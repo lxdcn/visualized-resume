@@ -56,39 +56,32 @@ class Radar extends Component {
   render() {
     return (
       <Mutation mutation={UPDATE_STATE}>
-        {updateState => {
-          // setTimeout(() => updateState({ variables: { state: 'UNAUTHORIZED' } }), 4000)
-          return (
-            <Query query={ALL_BLIPS_QUERY}
-                   onCompleted={() => updateState({ variables: { state: 'SOME_LOADING_COMPLETED' } })}
-                   // onError={(error) => {
-                   //   console.log(error)
-                   //   updateState({ variables: { state: 'UNAUTHORIZED' } })
-                   // }}
-                   >
-              {
-                ({ loading, error, data, client }) => {
-                  let blips = defaultBlipsData
-                  if (data && data.allBlips) {
-                    blips = data.allBlips
-                  }
-                  console.log('Radar rendering')
-
-                  if (loading) {
-                    // updateState({ variables: { state: 'LOADING' } })
-                    // setTimeout(() => updateState({ variables: { state: 'LOADING' } }), 1)
-                  }
-
-                  return (
-                    <div>
-                      { blips.map((blip, idx) => <div key={idx}>{blip.quadrant}</div>) }
-                    </div>
-                  )
+        {updateState => (
+          <Query query={ALL_BLIPS_QUERY}
+                 onCompleted={() => updateState({ variables: { state: 'SOME_LOADING_COMPLETED' } })}
+                 onError={() => updateState({ variables: { state: 'UNAUTHORIZED' } })}>
+            {
+              ({ loading, error, data, client }) => {
+                let blips = defaultBlipsData
+                if (data && data.allBlips) {
+                  blips = data.allBlips
                 }
+                console.log('Radar rendering')
+
+                if (loading) {
+                  // updateState({ variables: { state: 'LOADING' } })
+                  // setTimeout(() => updateState({ variables: { state: 'LOADING' } }), 1)
+                }
+
+                return (
+                  <div>
+                    { blips.map((blip, idx) => <div key={idx}>{blip.quadrant}</div>) }
+                  </div>
+                )
               }
-            </Query>
-          )
-        }}
+            }
+          </Query>
+        )}
       </Mutation>
     )
   }

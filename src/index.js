@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker'
 import { ApolloProvider } from 'react-apollo'
 import ApolloClient from 'apollo-boost'
 
+import { defaults, resolvers } from './resolvers/UiState'
 
 import 'normalize.css'
 
@@ -17,6 +18,7 @@ const client = new ApolloClient({
       authorization: sessionStorage.getItem('key') ? `Bearer ${sessionStorage.getItem('key')}` : ''
     }
   }),
+  clientState: { defaults, resolvers }
 })
 
 ReactDOM.render(
