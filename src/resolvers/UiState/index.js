@@ -20,7 +20,7 @@ export const resolvers = {
         }
       }
       cache.writeData({ data })
-      return null
+      return data.uiState
     },
   }
 }

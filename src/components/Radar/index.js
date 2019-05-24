@@ -61,10 +61,10 @@ class Radar extends Component {
           return (
             <Query query={ALL_BLIPS_QUERY}
                    onCompleted={() => updateState({ variables: { state: 'SOME_LOADING_COMPLETED' } })}
-                   // onError={(error) => {
-                   //   console.log(error)
-                   //   updateState({ variables: { state: 'UNAUTHORIZED' } })
-                   // }}
+                   onError={(error) => {
+                     console.log(error)
+                     // updateState({ variables: { state: 'UNAUTHORIZED' } })
+                   }}
                    >
               {
                 ({ loading, error, data, client }) => {
