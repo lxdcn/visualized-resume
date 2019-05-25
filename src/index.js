@@ -5,7 +5,10 @@ import App from './components/App'
 import * as serviceWorker from './serviceWorker'
 import { ApolloProvider } from 'react-apollo'
 import ApolloClient from 'apollo-boost'
+import { configureStore } from 'redux-starter-kit'
+import { Provider } from 'react-redux'
 
+import reducer from './reducers'
 import { defaults, resolvers } from './resolvers/UiState'
 
 import 'normalize.css'
@@ -21,15 +24,21 @@ const client = new ApolloClient({
   clientState: { defaults, resolvers }
 })
 
+const store = configureStore({
+  reducer
+})
+
 ReactDOM.render(
-  <Router>
-    <ApolloProvider client={client}>
-      <div>
-        <Route exact path="/" component={App} />
-        <Route path="/:key" component={App} />
-      </div>
-    </ApolloProvider>
-  </Router>,
+  <Provider store={store}>
+    <Router>
+      <ApolloProvider client={client}>
+        <div>
+          <Route exact path="/" component={App} />
+          <Route path="/:key" component={App} />
+        </div>
+      </ApolloProvider>
+    </Router>
+  </Provider>,
   document.getElementById('root'))
 
 // If you want your app to work offline and load faster, you can change
