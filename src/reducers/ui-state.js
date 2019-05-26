@@ -1,6 +1,12 @@
 
 import { createSlice } from 'redux-starter-kit'
 
+const LAYERS = {
+  LOGIN: 'LOGIN',
+  LOADING: 'LOADING',
+  RESUME: 'RESUME',
+}
+
 const slice = createSlice({
   slice: 'ui-state',
   initialState: {
@@ -11,13 +17,13 @@ const slice = createSlice({
   reducers: {
     unauthorizedReceived(state, action) {
       state.unauthorizedLoginCount = state.unauthorizedLoginCount + 1
-      state.showLayer = 'LOGIN'
+      state.showLayer = LAYERS.LOGIN
     },
     querySucceeded(state, action) {
-      state.showLayer = 'RESUME'
+      state.showLayer = LAYERS.RESUME
     },
     otherQueryError(state, action) {
-      state.showLayer = 'XXXXX'
+      state.showLayer = LAYERS.LOGIN // TODO FIXME
       state.showErrorSnackbar = true
     },
   }
@@ -25,4 +31,4 @@ const slice = createSlice({
 
 export default slice
 const { actions, reducer } = slice
-export { actions, reducer }
+export { actions, reducer, LAYERS }

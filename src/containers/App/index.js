@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withStyles } from '@material-ui/core'
 
-import SkillSetRadar from '../SkillSetRadar'
+import Resume from '../Resume'
+import LoginCover from '../LoginCover'
+import { LAYERS } from '../../reducers/ui-state'
 
+
+const styles = {
+}
 
 class App extends Component {
   componentWillMount() {
@@ -13,11 +19,11 @@ class App extends Component {
   }
 
   render() {
-    const { showLayer } = this.props
+    const { showLayer, classes } = this.props
     return (
-      <div>
-        {showLayer}
-        <SkillSetRadar />
+      <div className={classes.root}>
+        {showLayer === LAYERS.LOGIN && <LoginCover />}
+        <Resume />
       </div>
     )
   }
@@ -34,4 +40,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(App)
+)(withStyles(styles)(App))
