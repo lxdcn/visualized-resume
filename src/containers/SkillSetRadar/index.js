@@ -27,20 +27,20 @@ const defaultBlipsData = [
 class SkillSetRadar extends Component {
   constructor(props) {
     super(props)
+    this.refetch = null
+    this.state = {
+      querySkip: true
+    }
   }
 
-  componentDidMount() {
-  }
-
-  queryOnCompleted(client) {
-    console.log('queryOnCompleted')
-    client.writeData({ data: { state: 'SOME_LOADING_COMPLETED' } })
-    // set status completed, cancel spinner
-  }
-
-  querying(client) {
-    console.log('querying')
-    // set status completed, cancel spinner
+  componentDidUpdate(prevProps) {
+    const { sendRequestToggleFlag } = this.props
+    if (sendRequestToggleFlag !== prevProps.sendRequestToggleFlag && this.refetch) {
+      if (this.state.querySkip) {
+        this.setState({ querySkip: false })  
+      }
+      this.refetch()
+    }
   }
 
   queryOnError(error) {
@@ -56,25 +56,25 @@ class SkillSetRadar extends Component {
 
   render() {
     const { querySucceeded } = this.props
+    const { querySkip } = this.state
     return (
-      <Query query={ALL_BLIPS_QUERY} onCompleted={querySucceeded} onError={error => this.queryOnError(error)}>
-        {
-          ({ loading, error, data, client }) => {
+      <Query query={ALL_BLIPS_QUERY}
+             onCompleted={querySucceeded}
+             onError={error => this.queryOnError(error)}
+             skip={querySkip}
+             >
+        {({ data, refetch }) => {
+            this.refetch = refetch
+
             let blips = defaultBlipsData
             if (data && data.allBlips) {
               blips = data.allBlips
             }
 
-            if (loading) {
-              // updateState({ variables: { state: 'LOADING' } })
-              // setTimeout(() => updateState({ variables: { state: 'LOADING' } }), 1)
-            }
-
             return (
               <Radar blips={blips} />
             )
-          }
-        }
+          }}
       </Query>
     )
   }
@@ -82,6 +82,7 @@ class SkillSetRadar extends Component {
 
 
 const mapStateToProps = state => ({
+  sendRequestToggleFlag: state.uiState.sendRequestToggleFlag
 })
 
 const mapDispatchToProps = {

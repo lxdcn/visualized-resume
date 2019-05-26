@@ -6,15 +6,24 @@ import Resume from '../Resume'
 import LoginCover from '../LoginCover'
 import { LAYERS } from '../../reducers/ui-state'
 
+import { actions as uiStateActions } from '../../reducers/ui-state'
+
 
 const styles = {
 }
 
 class App extends Component {
   componentWillMount() {
-    const { match } = this.props
+    const { match, sendRequest, showLoginDirectly } = this.props
+
     if (match.params.key) {
       sessionStorage.setItem('key', match.params.key)
+    } else {
+      if (sessionStorage.getItem('key')) {
+        sendRequest()
+      } else {
+        showLoginDirectly()
+      }
     }
   }
 
@@ -35,6 +44,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
+  ...uiStateActions
 }
 
 export default connect(
