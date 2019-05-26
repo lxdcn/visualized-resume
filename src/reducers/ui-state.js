@@ -10,7 +10,7 @@ const LAYERS = {
 const slice = createSlice({
   slice: 'ui-state',
   initialState: {
-    showLayer: '', // LOGIN, LOADING, RESUME
+    showLayer: LAYERS.LOADING,
     sendRequestToggleFlag: true,
     showErrorSnackbar: false,
     unauthorizedLoginCount: 0,

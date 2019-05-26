@@ -37,7 +37,7 @@ class SkillSetRadar extends Component {
     const { sendRequestToggleFlag } = this.props
     if (sendRequestToggleFlag !== prevProps.sendRequestToggleFlag && this.refetch) {
       if (this.state.querySkip) {
-        this.setState({ querySkip: false })  
+        this.setState({ querySkip: false })
       }
       this.refetch()
     }

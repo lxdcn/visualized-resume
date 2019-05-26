@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core'
 
 import Resume from '../Resume'
 import LoginCover from '../LoginCover'
+import LoadingCover from '../LoadingCover'
 import { LAYERS } from '../../reducers/ui-state'
 
 import { actions as uiStateActions } from '../../reducers/ui-state'
@@ -32,6 +33,7 @@ class App extends Component {
     return (
       <div className={classes.root}>
         {showLayer === LAYERS.LOGIN && <LoginCover />}
+        {showLayer === LAYERS.LOADING && <LoadingCover />}
         <Resume />
       </div>
     )

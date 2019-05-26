@@ -11,7 +11,11 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    filter: ({ showLayer }) => showLayer !== LAYERS.RESUME ? 'blur(4px)' : null,
+    filter: ({ showLayer }) => {
+      if (showLayer === LAYERS.LOGIN) return 'blur(4px)'
+      if (showLayer === LAYERS.LOADING) return 'blur(2.5px)'
+      return null
+    }
   }
 })
 
