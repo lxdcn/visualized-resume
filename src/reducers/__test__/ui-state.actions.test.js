@@ -1,4 +1,5 @@
 import { actions } from '../ui-state'
+import { AUTH_SESSION_STORAGE_KEY } from '../../auth'
 
 describe('actionsCreator in ui-state', () => {
   it ('all actions should be created', () => {
@@ -23,5 +24,34 @@ describe('actionsCreator in ui-state', () => {
     expect(unauthorizedReceived().type).toEqual('ui-state/unauthorizedReceived')
     expect(unauthorizedReceived.type).toEqual('ui-state/unauthorizedReceived')
     expect('' + unauthorizedReceived).toEqual('ui-state/unauthorizedReceived')
+  })
+
+  it ('unauthorizedReceived would clear sessionStorage', () => {
+    const { sendRequest, unauthorizedReceived } = actions
+    const originalSessionStorage = global.localStorage
+
+    class SessionStorageMock {
+      constructor() {
+        this.store = {};
+      }
+
+      getItem(key) {
+        return this.store[key] || null;
+      }
+      setItem(key, value) {
+        this.store[key] = value.toString();
+      }
+      removeItem(key) {
+        delete this.store[key];
+      }
+    }
+    global.sessionStorage = new SessionStorageMock
+
+    sessionStorage.setItem(AUTH_SESSION_STORAGE_KEY, 'value')
+    expect(sessionStorage.getItem(AUTH_SESSION_STORAGE_KEY)).toEqual('value')
+    unauthorizedReceived()
+    expect(sessionStorage.getItem(AUTH_SESSION_STORAGE_KEY)).toBeNull()
+
+    global.sessionStorage = originalSessionStorage
   })
 })

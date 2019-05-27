@@ -5,6 +5,7 @@ import FormControl from '@material-ui/core/FormControl'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import TextField from '@material-ui/core/TextField'
 import { actions as uiStateActions } from '../../reducers/ui-state'
+import { validKey } from '../../auth'
 
 const styles = {
   root: {
@@ -32,7 +33,7 @@ const styles = {
 class LoginCover extends Component {
   keyTyped(value) {
     const { sendRequest } = this.props
-    if (value && value.length === 16) {
+    if (validKey(value)) {
       sendRequest()
     }
   }

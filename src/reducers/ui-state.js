@@ -1,4 +1,5 @@
 import { createSlice } from 'redux-starter-kit'
+import { AUTH_SESSION_STORAGE_KEY } from '../auth'
 
 const LAYERS = {
   LOGIN: 'LOGIN',
@@ -8,7 +9,7 @@ const LAYERS = {
 
 
 const unauthorizedReceived = () => {
-  sessionStorage.removeItem('key')
+  sessionStorage.removeItem(AUTH_SESSION_STORAGE_KEY)
   return {
     type: 'ui-state/unauthorizedReceived'
   }

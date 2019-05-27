@@ -8,6 +8,8 @@ import ApolloClient from 'apollo-boost'
 import { configureStore } from 'redux-starter-kit'
 import { Provider } from 'react-redux'
 
+import { AUTH_SESSION_STORAGE_KEY } from './auth'
+
 import reducer from './reducers'
 
 import 'normalize.css'
@@ -17,7 +19,7 @@ const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql', // with /graphql because of CORS
   request: async operation => operation.setContext({
     headers: {
-      authorization: sessionStorage.getItem('key') ? `Bearer ${sessionStorage.getItem('key')}` : ''
+      authorization: sessionStorage.getItem(AUTH_SESSION_STORAGE_KEY) ? `Bearer ${sessionStorage.getItem(AUTH_SESSION_STORAGE_KEY)}` : ''
     }
   }),
 })
