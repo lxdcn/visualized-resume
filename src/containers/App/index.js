@@ -13,11 +13,10 @@ import { actions as uiStateActions } from '../../reducers/ui-state'
 const styles = {
 }
 
-class App extends Component {
+export class App extends Component {
   componentDidMount() {
     const { location, sendRequest, showLoginDirectly } = this.props
     const queryParams = queryString.parse(location.search)
-    console.log(queryParams)
 
     if (queryParams.key) {
       sessionStorage.setItem(AUTH_SESSION_STORAGE_KEY, queryParams.key)
@@ -28,6 +27,13 @@ class App extends Component {
       } else {
         showLoginDirectly()
       }
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { showLayer } = this.props
+    if (showLayer === LAYERS.LOGIN && showLayer !== prevProps.showLayer) {
+      window.history.pushState({}, document.title, "/")
     }
   }
 

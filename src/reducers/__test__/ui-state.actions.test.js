@@ -27,31 +27,15 @@ describe('actionsCreator in ui-state', () => {
   })
 
   it ('unauthorizedReceived would clear sessionStorage', () => {
-    const { sendRequest, unauthorizedReceived } = actions
-    const originalSessionStorage = global.localStorage
+    const { unauthorizedReceived } = actions
 
-    class SessionStorageMock {
-      constructor() {
-        this.store = {};
-      }
-
-      getItem(key) {
-        return this.store[key] || null;
-      }
-      setItem(key, value) {
-        this.store[key] = value.toString();
-      }
-      removeItem(key) {
-        delete this.store[key];
-      }
-    }
-    global.sessionStorage = new SessionStorageMock
-
+    const spy = jest.spyOn(window.sessionStorage.__proto__, 'removeItem')
     sessionStorage.setItem(AUTH_SESSION_STORAGE_KEY, 'value')
-    expect(sessionStorage.getItem(AUTH_SESSION_STORAGE_KEY)).toEqual('value')
-    unauthorizedReceived()
-    expect(sessionStorage.getItem(AUTH_SESSION_STORAGE_KEY)).toBeNull()
 
-    global.sessionStorage = originalSessionStorage
+    unauthorizedReceived()
+
+    expect(spy).toHaveBeenCalled()
+    expect(sessionStorage.getItem(AUTH_SESSION_STORAGE_KEY)).toBeNull()
+    spy.mockRestore()
   })
 })
