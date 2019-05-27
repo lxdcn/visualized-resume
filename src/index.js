@@ -16,7 +16,7 @@ import 'normalize.css'
 
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql', // with /graphql because of CORS
+  uri: process.env.REACT_APP_API_URL, // with /graphql because of CORS
   request: async operation => operation.setContext({
     headers: {
       authorization: sessionStorage.getItem(AUTH_SESSION_STORAGE_KEY) ? `Bearer ${sessionStorage.getItem(AUTH_SESSION_STORAGE_KEY)}` : ''
