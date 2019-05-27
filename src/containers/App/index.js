@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core'
-
+import queryString from 'query-string'
 import { AUTH_SESSION_STORAGE_KEY } from '../../auth'
 import Resume from '../Resume'
 import LoginCover from '../LoginCover'
@@ -14,11 +14,14 @@ const styles = {
 }
 
 class App extends Component {
-  componentWillMount() {
-    const { match, sendRequest, showLoginDirectly } = this.props
+  componentDidMount() {
+    const { location, sendRequest, showLoginDirectly } = this.props
+    const queryParams = queryString.parse(location.search)
+    console.log(queryParams)
 
-    if (match.params.key) {
-      sessionStorage.setItem(AUTH_SESSION_STORAGE_KEY, match.params.key)
+    if (queryParams.key) {
+      sessionStorage.setItem(AUTH_SESSION_STORAGE_KEY, queryParams.key)
+      sendRequest()
     } else {
       if (sessionStorage.getItem(AUTH_SESSION_STORAGE_KEY)) {
         sendRequest()

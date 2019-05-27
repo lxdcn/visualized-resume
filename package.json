@@ -9,6 +9,7 @@
     "apollo-link-context": "^1.0.17",
     "graphql": "^14.3.0",
     "normalize.css": "^8.0.1",
+    "query-string": "^6.5.0",
     "react": "^16.8.6",
     "react-apollo": "^2.5.5",
     "react-dom": "^16.8.6",

@@ -34,7 +34,6 @@ ReactDOM.render(
       <ApolloProvider client={client}>
         <div>
           <Route exact path="/" component={App} />
-          <Route path="/:key" component={App} />
         </div>
       </ApolloProvider>
     </Router>
