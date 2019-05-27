@@ -10,6 +10,7 @@ describe('actionsCreator in ui-state', () => {
         querySucceeded: expect.any(Function),
         otherQueryError: expect.any(Function),
         unauthorizedReceived: expect.any(Function),
+        errorSnackbarClosed: expect.any(Function),
       })
     )
     console.log(actions)

@@ -40,6 +40,9 @@ const slice = createSlice({
     otherQueryError: state => {
       state.showErrorSnackbar = true
     },
+    errorSnackbarClosed: state => {
+      state.showErrorSnackbar = false
+    }
   },
   extraReducers: {
     [unauthorizedReceived]: state => {

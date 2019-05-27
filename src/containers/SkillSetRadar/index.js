@@ -45,7 +45,7 @@ class SkillSetRadar extends Component {
 
   queryOnError(error) {
     const { unauthorizedReceived, otherQueryError } = this.props
-    // console.error(error)
+    console.error(error)
 
     if (error.networkError && error.networkError.statusCode === 401) {
       unauthorizedReceived()
