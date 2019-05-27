@@ -1,4 +1,3 @@
-
 import { createSlice } from 'redux-starter-kit'
 
 const LAYERS = {
@@ -6,6 +5,17 @@ const LAYERS = {
   LOADING: 'LOADING',
   RESUME: 'RESUME',
 }
+
+
+const unauthorizedReceived = () => {
+  sessionStorage.removeItem('key')
+  return {
+    type: 'ui-state/unauthorizedReceived'
+  }
+}
+unauthorizedReceived.toString = () => unauthorizedReceived().type
+unauthorizedReceived.type = unauthorizedReceived().type
+
 
 const slice = createSlice({
   slice: 'ui-state',
@@ -16,28 +26,34 @@ const slice = createSlice({
     unauthorizedLoginCount: 0,
   },
   reducers: {
-    sendRequest(state, action) {
+    sendRequest: state => {
       state.showLayer = LAYERS.LOADING
       state.sendRequestToggleFlag = !state.sendRequestToggleFlag
     },
-    showLoginDirectly(state, action) {
+    showLoginDirectly: state => {
       state.showLayer = LAYERS.LOGIN
     },
-    unauthorizedReceived(state, action) {
-      state.unauthorizedLoginCount = state.unauthorizedLoginCount + 1
-      state.showLayer = LAYERS.LOGIN
-    },
-    querySucceeded(state, action) {
+    querySucceeded: state => {
       state.showLayer = LAYERS.RESUME
     },
-    otherQueryError(state, action) {
-      // state.showErrorSnackbar = true
-      state.unauthorizedLoginCount = state.unauthorizedLoginCount + 1 // TODO FIXME
-      state.showLayer = LAYERS.LOGIN // TODO FIXME
+    otherQueryError: state => {
+      state.showErrorSnackbar = true
     },
+  },
+  extraReducers: {
+    [unauthorizedReceived]: state => {
+      state.unauthorizedLoginCount = state.unauthorizedLoginCount + 1
+      state.showLayer = LAYERS.LOGIN
+    }
   }
 })
 
+
 export default slice
-const { actions, reducer } = slice
+
+const { reducer } = slice
+const actions = {
+  ...slice.actions,
+  unauthorizedReceived
+}
 export { actions, reducer, LAYERS }
