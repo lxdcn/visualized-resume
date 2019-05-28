@@ -3,7 +3,12 @@ import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 
 import DetailSection from './detail-section'
-import { initateSvg, drawBackgroundCirclesAndAxis, drawBlips } from './d3/radar-in-d3'
+
+import initateSvg from './d3/initate-svg'
+import drawBackgroundCirclesAndAxis from './d3/draw-background-circles-and-axis'
+import drawQuadrantLabels from './d3/draw-quadrant-labels'
+import drawBlips from './d3/draw-blips'
+
 
 const RADAR_WIDTH = 800
 const RADAR_HEIGHT = 600
@@ -27,12 +32,13 @@ class Radar extends Component {
     this.svgId = `radar-chart-${count++}`
     this.radius = Math.min(RADAR_WIDTH/2, RADAR_HEIGHT/2) * 0.95
 
+    this.svgRefs = {}
+
     this.state = {
       clickedBlip: { quadrant: '', name: '' },
       hoveredQuadrantIndex: 0,
     }
   }
-
 
   clickOnBlip(quadrant, name){
     const { quadrant: prevQuadrant, name: prevName } = this.state.clickedBlip
@@ -46,13 +52,40 @@ class Radar extends Component {
   componentDidMount() {
     const { divId, svgId, radius } = this
     const { blips } = this.props
+    const quadrantNames = [...new Set(blips.map(blip => blip.quadrant))]
 
     const hoverOnQuadrant = quadrantIndex => this.setState({ hoveredQuadrantIndex: quadrantIndex })
 
+    const { g } = initateSvg(divId, svgId, RADAR_WIDTH, RADAR_HEIGHT)
+    const { backgroundG } = drawBackgroundCirclesAndAxis(g, RADAR_WIDTH, RADAR_HEIGHT, radius, quadrantNames, hoverOnQuadrant)
+    const { quadrantLabelsG } = drawQuadrantLabels(g, radius, quadrantNames, hoverOnQuadrant)
+    const { blipsG } = drawBlips(g, radius, blips, hoverOnQuadrant, (quadrant, name) => this.clickOnBlip(quadrant, name))
 
-    const { svg, g } = initateSvg(divId, svgId, RADAR_WIDTH, RADAR_HEIGHT)
-    drawBackgroundCirclesAndAxis(svg, g, RADAR_WIDTH, RADAR_HEIGHT, radius, blips, hoverOnQuadrant)
-    drawBlips(svg, g, radius, blips, hoverOnQuadrant, (quadrant, name) => this.clickOnBlip(quadrant, name))
+    this.svgRefs.g = g
+    this.svgRefs.backgroundG = backgroundG
+    this.svgRefs.quadrantLabelsG = quadrantLabelsG
+    this.svgRefs.blipsG = blipsG
+  }
+
+  componentDidUpdate(prevProps) {
+    const { blips } = this.props
+    const quadrantNames = [...new Set(blips.map(blip => blip.quadrant))]
+    const { radius } = this
+
+    if (blips !== prevProps.blips) {
+      if (this.svgRefs.quadrantLabelsG) {
+        this.svgRefs.quadrantLabelsG.remove()
+      }
+      if (this.svgRefs.blipsG) {
+        this.svgRefs.blipsG.remove()
+      }
+      const hoverOnQuadrant = quadrantIndex => this.setState({ hoveredQuadrantIndex: quadrantIndex })
+
+      const { quadrantLabelsG } = drawQuadrantLabels(this.svgRefs.g, radius, quadrantNames, hoverOnQuadrant)
+      const { blipsG } = drawBlips(this.svgRefs.g, radius, blips, hoverOnQuadrant, (quadrant, name) => this.clickOnBlip(quadrant, name))
+      this.svgRefs.quadrantLabelsG = quadrantLabelsG
+      this.svgRefs.blipsG = blipsG
+    }
   }
 
   componentWillMount() {
@@ -85,7 +118,8 @@ class Radar extends Component {
           clickedBlip={clickedBlip}
           flipped={true}
         />
-        <DetailSection radarWidth={RADAR_WIDTH}
+        <DetailSection
+          radarWidth={RADAR_WIDTH}
           expand={hoveredQuadrantIndex === 2}
           quadrantName={quadrants[2]}
           onClickBlip={(quadrant, name) => this.clickOnBlip(quadrant, name)}

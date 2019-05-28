@@ -34,16 +34,13 @@ const styles = theme => ({
   desc: {
     overflow: 'hidden',
     wordWrap: 'break-word',
+    marginTop: 0,
     transition: 'max-height 0.3s linear, margin-bottom 0.3s linear',
     fontWeight: 100,
   },
 })
 
 class DetailSection extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   toggleDesc() {
     this.setState({
       open: !this.state.open
@@ -55,7 +52,6 @@ class DetailSection extends Component {
 
   render() {
     const { classes, quadrantName, entries, radarWidth, expand, onClickBlip, clickedBlip, } = this.props
-    const flipIfNecessary = flipped => ({ transform: flipped? 'scale(-1, 1)' : null })
 
     const expandDesc = entry => clickedBlip && clickedBlip.quadrantIndex === entry.quadrantIndex && clickedBlip.name === entry.name
     const blipDescDynamicStyle = entry => ({
