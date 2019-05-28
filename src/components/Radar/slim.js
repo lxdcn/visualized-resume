@@ -6,7 +6,7 @@ import DetailSection from './detail-section'
 
 import initateSvg from './d3/initate-svg'
 import drawBackgroundCirclesAndAxis from './d3/draw-slim-background-circles-and-axis'
-import drawQuadrantLabels from './d3/draw-quadrant-labels'
+import drawQuadrantLabels from './d3/draw-slim-quadrant-labels'
 import drawBlips from './d3/draw-blips'
 
 
@@ -21,6 +21,7 @@ const styles = theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     flexWrap: 'nowrap',
+    textAlign: 'center',
   },
 })
 
@@ -53,20 +54,22 @@ class Radar extends Component {
   }
 
   componentDidMount() {
-    const { divId, svgId, radius } = this
+    const { divId, svgId } = this
     const { clickedQuadrantIndex } = this.state
     const { blips } = this.props
     const quadrantNames = [...new Set(blips.map(blip => blip.quadrant))]
 
     const raderWidth = Math.min(window.innerWidth, 600)
     const raderHeight = raderWidth * (6 / 8)
-    this.radius = Math.min(raderWidth/2, raderHeight/2) * 0.95
+    this.radius = Math.min(raderWidth/2, raderHeight/2) * 0.9
+
+    console.log(raderWidth, raderHeight, this.radius)
 
     const clickOnQuadrant = quadrantIndex => this.setState({ clickedQuadrantIndex: quadrantIndex })
 
     const { g } = initateSvg(divId, svgId, raderWidth, raderHeight)
-    const { backgroundG } = drawBackgroundCirclesAndAxis(g, radius, quadrantNames, clickedQuadrantIndex, clickOnQuadrant)
-    const { quadrantLabelsG } = drawQuadrantLabels(g, radius, quadrantNames, clickOnQuadrant)
+    const { backgroundG } = drawBackgroundCirclesAndAxis(g, this.radius, quadrantNames, clickedQuadrantIndex, clickOnQuadrant)
+    const { quadrantLabelsG } = drawQuadrantLabels(g, this.radius, quadrantNames, clickedQuadrantIndex, clickOnQuadrant)
 
     this.svgRefs.g = g
     this.svgRefs.backgroundG = backgroundG
@@ -74,9 +77,10 @@ class Radar extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { blips } = this.props
-    const quadrantNames = [...new Set(blips.map(blip => blip.quadrant))]
     const { radius } = this
+    const { blips } = this.props
+    const { clickedQuadrantIndex } = this.state
+    const quadrantNames = [...new Set(blips.map(blip => blip.quadrant))]
 
     if (blips !== prevProps.blips) {
       if (this.svgRefs.quadrantLabelsG) {
@@ -87,7 +91,7 @@ class Radar extends Component {
       }
       const clickOnQuadrant = quadrantIndex => this.setState({ clickedQuadrantIndex: quadrantIndex })
 
-      const { quadrantLabelsG } = drawQuadrantLabels(this.svgRefs.g, radius, quadrantNames, clickOnQuadrant)
+      const { quadrantLabelsG } = drawQuadrantLabels(this.svgRefs.g, radius, quadrantNames, clickedQuadrantIndex, clickOnQuadrant)
       this.svgRefs.quadrantLabelsG = quadrantLabelsG
     }
   }
