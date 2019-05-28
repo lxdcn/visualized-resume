@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import Radar from '../../components/Radar'
+import Radar from '../../components/Radar/slim'
 import { actions as uiStateActions } from '../../reducers/ui-state'
 
 const ALL_BLIPS_QUERY = gql`
@@ -58,6 +58,7 @@ class SkillSetRadar extends Component {
   render() {
     const { querySucceeded } = this.props
     const { querySkip } = this.state
+
     return (
       <Query query={ALL_BLIPS_QUERY}
              onCompleted={querySucceeded}
