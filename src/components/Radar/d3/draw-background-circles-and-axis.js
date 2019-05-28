@@ -25,14 +25,6 @@ export default (g, width, height, radius, quadrantNames, hoverOnQuadrant) => {
              .outerRadius(outerRadiusValue)
   }
 
-  const newBlipCoordinatesOnFocus = (x, y) => {
-    const r = Math.sqrt(x * x + y * y)
-    const sin = y / r
-    const cos = x / r
-    const newR = r + 14
-    return { x: sin * newR, y: cos * newR}
-  }
-
   const backgroundG = g.append('g').attr('class', 'background')
 
   const eachQuadrantRectBackdrop = backgroundG.append('g').attr('class', 'quadrant-rect-backdrop')

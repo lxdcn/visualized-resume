@@ -7,11 +7,7 @@ import DetailSection from './detail-section'
 import initateSvg from './d3/initate-svg'
 import drawBackgroundCirclesAndAxis from './d3/draw-slim-background-circles-and-axis'
 import drawQuadrantLabels from './d3/draw-slim-quadrant-labels'
-import drawBlips from './d3/draw-blips'
 
-
-const RADAR_WIDTH = 800
-const RADAR_HEIGHT = 600
 
 const styles = theme => ({
   root: {

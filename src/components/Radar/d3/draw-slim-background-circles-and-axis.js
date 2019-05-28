@@ -52,5 +52,5 @@ export default (g, radius, quadrantNames, initialClickedQuadrant, clickOnQuadran
                                                clickOnQuadrant(i)
                                              })
 
-  return { backgroundG, }
+  return { backgroundG, quadrantG }
 }

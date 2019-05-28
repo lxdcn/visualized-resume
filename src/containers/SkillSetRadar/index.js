@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import Radar from '../../components/Radar/slim'
+import Radar from '../../components/Radar'
 import { actions as uiStateActions } from '../../reducers/ui-state'
 
 const ALL_BLIPS_QUERY = gql`
