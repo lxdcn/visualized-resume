@@ -10,7 +10,6 @@
     "d3": "^5.9.2",
     "d3-scale": "^3.0.0",
     "graphql": "^14.3.0",
-    "normalize.css": "^8.0.1",
     "query-string": "^6.5.0",
     "react": "^16.8.6",
     "react-apollo": "^2.5.5",

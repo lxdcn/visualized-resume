@@ -28,31 +28,31 @@ class Radar extends Component {
     this.radius = Math.min(RADAR_WIDTH/2, RADAR_HEIGHT/2) * 0.95
 
     this.state = {
-      clickedBlip: { sector: '', name: '' },
-      hoveredSectorIndex: 0,
+      clickedBlip: { quadrant: '', name: '' },
+      hoveredQuadrantIndex: 0,
     }
   }
 
 
-  clickOnBlip(sector, name){
-    const { sector: prevSector, name: prevName } = this.state.clickedBlip
-    if (prevSector === sector && prevName === name) {
-      this.setState({ clickedBlip: { sector: '', name: '' } })
+  clickOnBlip(quadrant, name){
+    const { quadrant: prevQuadrant, name: prevName } = this.state.clickedBlip
+    if (prevQuadrant === quadrant && prevName === name) {
+      this.setState({ clickedBlip: { quadrant: '', name: '' } })
       return
     }
-    this.setState({ clickedBlip: { sector, name } })
+    this.setState({ clickedBlip: { quadrant, name } })
   }
 
   componentDidMount() {
     const { divId, svgId, radius } = this
     const { blips } = this.props
 
-    const hoverOnSector = sectorIndex => this.setState({ hoveredSectorIndex: sectorIndex })
+    const hoverOnQuadrant = quadrantIndex => this.setState({ hoveredQuadrantIndex: quadrantIndex })
 
 
     const { svg, g } = initateSvg(divId, svgId, RADAR_WIDTH, RADAR_HEIGHT)
-    drawBackgroundCirclesAndAxis(svg, g, RADAR_WIDTH, RADAR_HEIGHT, radius, blips, hoverOnSector)
-    drawBlips(svg, g, radius, blips, hoverOnSector, (sector, name) => this.clickOnBlip(sector, name))
+    drawBackgroundCirclesAndAxis(svg, g, RADAR_WIDTH, RADAR_HEIGHT, radius, blips, hoverOnQuadrant)
+    drawBlips(svg, g, radius, blips, hoverOnQuadrant, (quadrant, name) => this.clickOnBlip(quadrant, name))
   }
 
   componentWillMount() {
@@ -60,29 +60,58 @@ class Radar extends Component {
 
   render() {
     const { classes, blips } = this.props
-    const { hoveredSectorIndex, clickedBlip } = this.state
+    const { hoveredQuadrantIndex, clickedBlip } = this.state
     const { divId, svgId } = this
-    const blipsGroupBySector = blips.reduce((acc, cur, idx) => {
-      acc[cur.sector] = acc[cur.sector] || []
-      acc[cur.sector].push({
+    const blipsGroupByQuadrant = blips.reduce((acc, cur, idx) => {
+      acc[cur.quadrant] = acc[cur.quadrant] || []
+      acc[cur.quadrant].push({
         key: idx,
-        sector: cur.sector,
+        quadrant: cur.quadrant,
         name: cur.name,
         desc: cur.desc || ''
       })
       return acc
     }, {})
-    const sectors = Object.keys(blipsGroupBySector)
+    const quadrants = Object.keys(blipsGroupByQuadrant)
 
     return (
       <div className={classes.root}>
-        <DetailSection radarWidth={RADAR_WIDTH} expand={hoveredSectorIndex === 3} sectorName={sectors[3]} onClickBlip={(sector, name) => this.clickOnBlip(sector, name)} entries={blipsGroupBySector[sectors[3]]} clickedBlip={clickedBlip} flipped={true}/>
-        <DetailSection radarWidth={RADAR_WIDTH} expand={hoveredSectorIndex === 2} sectorName={sectors[2]} onClickBlip={(sector, name) => this.clickOnBlip(sector, name)} entries={blipsGroupBySector[sectors[2]]} clickedBlip={clickedBlip} flipped={true}/>
+        <DetailSection
+          radarWidth={RADAR_WIDTH}
+          expand={hoveredQuadrantIndex === 3}
+          quadrantName={quadrants[3]}
+          onClickBlip={(quadrant, name) => this.clickOnBlip(quadrant, name)}
+          entries={blipsGroupByQuadrant[quadrants[3]]}
+          clickedBlip={clickedBlip}
+          flipped={true}
+        />
+        <DetailSection radarWidth={RADAR_WIDTH}
+          expand={hoveredQuadrantIndex === 2}
+          quadrantName={quadrants[2]}
+          onClickBlip={(quadrant, name) => this.clickOnBlip(quadrant, name)}
+          entries={blipsGroupByQuadrant[quadrants[2]]}
+          clickedBlip={clickedBlip}
+          flipped={true}
+        />
         <div id={divId}>
           <svg id={svgId}></svg>
         </div>
-        <DetailSection radarWidth={RADAR_WIDTH} expand={hoveredSectorIndex === 0} sectorName={sectors[0]} onClickBlip={(sector, name) => this.clickOnBlip(sector, name)} clickedBlip={clickedBlip} entries={blipsGroupBySector[sectors[0]]}/>
-        <DetailSection radarWidth={RADAR_WIDTH} expand={hoveredSectorIndex === 1} sectorName={sectors[1]} onClickBlip={(sector, name) => this.clickOnBlip(sector, name)} clickedBlip={clickedBlip} entries={blipsGroupBySector[sectors[1]]}/>
+        <DetailSection
+          radarWidth={RADAR_WIDTH}
+          expand={hoveredQuadrantIndex === 0}
+          quadrantName={quadrants[0]}
+          onClickBlip={(quadrant, name) => this.clickOnBlip(quadrant, name)}
+          clickedBlip={clickedBlip}
+          entries={blipsGroupByQuadrant[quadrants[0]]}
+         />
+        <DetailSection
+          radarWidth={RADAR_WIDTH}
+          expand={hoveredQuadrantIndex === 1}
+          quadrantName={quadrants[1]}
+          onClickBlip={(quadrant, name) => this.clickOnBlip(quadrant, name)}
+          clickedBlip={clickedBlip}
+          entries={blipsGroupByQuadrant[quadrants[1]]}
+        />
       </div>
     )
   }

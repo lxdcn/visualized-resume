@@ -8,18 +8,18 @@ export default () => {
       const dadX = node.dad.x + node.dad.vx
       const dadY = node.dad.y + node.dad.vy
       const dadRadius = node.dad.radius
-      const sectorIndex = node.dad.sectorIndex
+      const quadrantIndex = node.dad.quadrantIndex
       const nodeRadius = node.radius
-      if (sectorIndex === 0 ) {
+      if (quadrantIndex === 0 ) {
         node.x = dadX + dadRadius + node.nth * nodeRadius * 2 + nodeRadius
         node.y = dadY - nodeRadius / 2
-      } else if (sectorIndex === 1) {
+      } else if (quadrantIndex === 1) {
         node.x = dadX + dadRadius + node.nth * nodeRadius * 2 + nodeRadius
         node.y = dadY + nodeRadius / 2
-      } else if (sectorIndex === 2) {
+      } else if (quadrantIndex === 2) {
         node.x = dadX - (dadRadius + node.nth * nodeRadius * 2 + nodeRadius)
         node.y = dadY + nodeRadius / 2
-      } else if (sectorIndex === 3) {
+      } else if (quadrantIndex === 3) {
         node.x = dadX - (dadRadius + node.nth * nodeRadius * 2 + nodeRadius)
         node.y = dadY - nodeRadius / 2
       }

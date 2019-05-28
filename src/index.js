@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter as Router, Route } from "react-router-dom"
+import CssBaseline from '@material-ui/core/CssBaseline'
 import App from './containers/App'
 import * as serviceWorker from './serviceWorker'
 import { ApolloProvider } from 'react-apollo'
@@ -11,8 +12,6 @@ import { Provider } from 'react-redux'
 import { AUTH_SESSION_STORAGE_KEY } from './auth'
 
 import reducer from './reducers'
-
-import 'normalize.css'
 
 
 const client = new ApolloClient({
@@ -33,6 +32,7 @@ ReactDOM.render(
     <Router>
       <ApolloProvider client={client}>
         <div>
+          <CssBaseline />
           <Route exact path="/" component={App} />
         </div>
       </ApolloProvider>

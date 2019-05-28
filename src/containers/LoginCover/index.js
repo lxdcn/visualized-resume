@@ -20,7 +20,7 @@ const styles = {
     zIndex: 10,
   },
   form: {
-    width: '21em',
+    width: '24em',
     maxWidth: '90%',
     display: 'flex',
     justifyContent: 'center',
