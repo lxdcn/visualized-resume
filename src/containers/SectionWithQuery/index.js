@@ -14,6 +14,7 @@ const styles = theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     paddingTop: theme.spacing(4),
+    marginBottom: theme.spacing(4),
     width: '1000px',
   },
   header: {

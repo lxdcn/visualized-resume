@@ -15,7 +15,7 @@ const ALL_BLIPS_QUERY = gql`
   }
 `
 
-const defaultBlipsData = [
+const defaultBlips = [
   { quadrant: 'I', name: 'a', score: 10,  },
   { quadrant: 'IV', name: '', score: 10,  },
   { quadrant: 'III', name: '', score: 10,  },
@@ -24,6 +24,6 @@ const defaultBlipsData = [
 
 export default () => (
   <SectionWithQuery queryGql={ALL_BLIPS_QUERY} headerText='h3. Heading'>
-    {({ allBlips }) => <Radar blips={ allBlips || defaultBlipsData } />}
+    {({ allBlips }) => <Radar blips={ allBlips || defaultBlips } />}
   </SectionWithQuery>
 )

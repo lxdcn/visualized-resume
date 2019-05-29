@@ -14,13 +14,13 @@ const ALL_RANGES_QUERY = gql`
   }
 `
 
-const defaultRangesData = [
+const defaultRanges = [
   { from: '2012-07', to: '2014-03', desc: '# hello, world' },
   { from: '2014-07', to: '2019-01', desc: '## world, hello' },
 ]
 
 export default () => (
   <SectionWithQuery queryGql={ALL_RANGES_QUERY} headerText='h3. Heading'>
-    {({ allRanges }) => <Timeline ranges={ allRanges || defaultRangesData } />}
+    {({ allRanges }) => <Timeline ranges={ allRanges || defaultRanges } />}
   </SectionWithQuery>
 )

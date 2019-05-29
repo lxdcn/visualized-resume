@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/styles'
 
 import SkillSetRadar from '../SkillSetRadar'
 import ExperienceTimeline from '../ExperienceTimeline'
+import SideProjects from '../SideProjects'
 
 import { LAYERS } from '../../reducers/ui-state'
 
@@ -26,6 +27,7 @@ const Resume = props => {
     <div className={classes.root}>
       <SkillSetRadar />
       <ExperienceTimeline />
+      <SideProjects />
     </div>
   )
 }
