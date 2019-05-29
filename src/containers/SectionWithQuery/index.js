@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withStyles } from '@material-ui/core'
+import { withStyles, withWidth } from '@material-ui/core'
+import { isWidthDown } from '@material-ui/core/withWidth'
 import Typography from '@material-ui/core/Typography'
 import { Query } from 'react-apollo'
 
 import { actions as uiStateActions } from '../../reducers/ui-state'
-
+import Header from './section-header'
 
 const styles = theme => ({
   root: {
@@ -15,10 +16,13 @@ const styles = theme => ({
     alignItems: 'center',
     paddingTop: theme.spacing(4),
     marginBottom: theme.spacing(4),
-    width: '1000px',
+    [theme.breakpoints.up('md')]: {
+      width: 1000,
+    },
   },
   header: {
     alignSelf: 'flex-start',
+    paddingLeft: theme.spacing(2),
     marginBottom: theme.spacing(4),
   }
 })
@@ -54,7 +58,7 @@ class SectionWithQuery extends Component {
   }
 
   render() {
-    const { classes, querySucceeded, queryGql, headerText, children } = this.props
+    const { classes, width: screenWidth, querySucceeded, queryGql, headerText, children } = this.props
     const { querySkip } = this.state
 
     return (
@@ -68,9 +72,13 @@ class SectionWithQuery extends Component {
 
             return (
               <div className={classes.root}>
-                <Typography variant='h2' className={classes.header} gutterBottom>
+                <Header className={classes.header} text={headerText}/>
+              {/*
+                <Typography variant={isWidthDown('sm', screenWidth) ? 'h4' : 'h2'} className={classes.header} gutterBottom>
                   {headerText}
                 </Typography>
+                */}
+
                 {children(data || {})}
               </div>
             )

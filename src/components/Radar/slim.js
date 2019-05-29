@@ -12,7 +12,7 @@ import drawQuadrantLabels from './d3/draw-slim-quadrant-labels'
 const styles = theme => ({
   root: {
     // backgroundColor: '#f3f9fe',
-    position: 'absolute',
+    // position: 'absolute',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',

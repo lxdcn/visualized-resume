@@ -15,8 +15,6 @@ const RADAR_HEIGHT = 600
 
 const styles = theme => ({
   root: {
-    // backgroundColor: '#f3f9fe',
-    // position: 'absolute',
     display: 'flex',
     flexWrap: 'nowrap',
   },
