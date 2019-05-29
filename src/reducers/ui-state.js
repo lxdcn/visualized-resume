@@ -38,9 +38,11 @@ const slice = createSlice({
       state.showLayer = LAYERS.RESUME
     },
     otherQueryError: state => {
+      state.showLayer = LAYERS.LOADING
       state.showErrorSnackbar = true
     },
     errorSnackbarClosed: state => {
+      state.showLayer = LAYERS.RESUME
       state.showErrorSnackbar = false
     }
   },

@@ -5,15 +5,14 @@ import Typography from '@material-ui/core/Typography'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import Radar from '../../components/Radar'
+import Timeline from '../../components/Timeline'
 import { actions as uiStateActions } from '../../reducers/ui-state'
 
-const ALL_BLIPS_QUERY = gql`
+const ALL_RANGES_QUERY = gql`
   query {
-    allBlips {
-      quadrant
-      name
-      score
+    allRanges {
+      from
+      to
       desc
     }
   }
@@ -25,21 +24,20 @@ const styles = theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     paddingTop: theme.spacing(4),
+    width: '1000px',
   },
-  radarHeader: {
+  header: {
     alignSelf: 'flex-start',
     marginBottom: theme.spacing(4),
   }
 })
 
-const defaultBlipsData = [
-  { quadrant: 'I', name: 'a', score: 10,  },
-  { quadrant: 'IV', name: '', score: 10,  },
-  { quadrant: 'III', name: '', score: 10,  },
-  { quadrant: 'II', name: '', score: 10,  },
+const defaultRangesData = [
+  { from: '2012-07', to: '2014-03', desc: '# hello, world' },
+  { from: '2014-07', to: '2019-01', desc: '## world, hello' },
 ]
 
-class SkillSetRadar extends Component {
+class ExperienceTimeline extends Component {
   constructor(props) {
     super(props)
     this.refetch = null
@@ -75,7 +73,7 @@ class SkillSetRadar extends Component {
     const { querySkip } = this.state
 
     return (
-      <Query query={ALL_BLIPS_QUERY}
+      <Query query={ALL_RANGES_QUERY}
              onCompleted={querySucceeded}
              onError={error => this.queryOnError(error)}
              skip={querySkip}
@@ -83,17 +81,17 @@ class SkillSetRadar extends Component {
         {({ data, refetch }) => {
             this.refetch = refetch
 
-            let blips = defaultBlipsData
-            if (data && data.allBlips) {
-              blips = data.allBlips
+            let ranges = defaultRangesData
+            if (data && data.allRanges) {
+              ranges = data.allRanges
             }
 
             return (
               <div className={classes.root}>
-                <Typography variant='h2' className={classes.radarHeader} gutterBottom>
+                <Typography variant='h2' className={classes.header} gutterBottom>
                   h3. Heading
                 </Typography>
-                <Radar blips={blips} />
+                <Timeline ranges={ranges} />
               </div>
             )
           }}
@@ -114,4 +112,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(SkillSetRadar))
+)(withStyles(styles)(ExperienceTimeline))

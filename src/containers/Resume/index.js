@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/styles'
 
 import SkillSetRadar from '../SkillSetRadar'
+import ExperienceTimeline from '../ExperienceTimeline'
 
 import { LAYERS } from '../../reducers/ui-state'
 
@@ -15,7 +16,7 @@ const useStyles = makeStyles({
       if (showLayer === LAYERS.LOGIN) return 'blur(4px)'
       if (showLayer === LAYERS.LOADING) return 'blur(2.5px)'
       return null
-    }
+    },
   }
 })
 
@@ -24,6 +25,7 @@ const Resume = props => {
   return (
     <div className={classes.root}>
       <SkillSetRadar />
+      <ExperienceTimeline />
     </div>
   )
 }

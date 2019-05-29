@@ -16,4 +16,12 @@ describe('Reducers in ui-state', () => {
       unauthorizedLoginCount: 10
     })
   })
+
+  it ('otherQueryError would bring up LOADING cover', () => {
+    expect(
+      reducer({ showLayer: 9 }, actions.otherQueryError())
+    ).toMatchObject({
+      showLayer: LAYERS.LOADING
+    })
+  })
 })

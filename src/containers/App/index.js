@@ -11,6 +11,11 @@ import { actions as uiStateActions } from '../../reducers/ui-state'
 
 
 const styles = {
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
 }
 
 export class App extends Component {
