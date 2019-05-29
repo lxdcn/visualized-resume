@@ -34,7 +34,7 @@ const LoadingCover = ({ classes, showErrorSnackbar, errorSnackbarClosed }) => (
         autoHideDuration={10000}
         onClose={() => errorSnackbarClosed()}
         ContentProps={{ 'aria-describedby': 'message-id' }}
-        message={<span id="message-id">Oh No! An unexpected error occurred when request data from API</span>}
+        message={<span id="message-id">Oh! What a shame! An unexpected error occurred <span role="img" aria-labelledby="hehe">😂</span></span>}
         action={[
           <Button key="hmn" color="secondary" onClick={() => errorSnackbarClosed()}>
             OK
