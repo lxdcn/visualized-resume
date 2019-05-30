@@ -49,7 +49,7 @@ class Radar extends Component {
 
   componentDidMount() {
     const { divId, svgId, radius } = this
-    const { blips } = this.props
+    const { blips, smallMedia } = this.props
     const quadrantNames = [...new Set(blips.map(blip => blip.quadrant))]
 
     const hoverOnQuadrant = quadrantIndex => this.setState({ hoveredQuadrantIndex: quadrantIndex })
@@ -57,16 +57,23 @@ class Radar extends Component {
     const { g } = initateSvg(divId, svgId, RADAR_WIDTH, RADAR_HEIGHT)
     const { backgroundG } = drawBackgroundCirclesAndAxis(g, RADAR_WIDTH, RADAR_HEIGHT, radius, quadrantNames, hoverOnQuadrant)
     const { quadrantLabelsG } = drawQuadrantLabels(g, radius, quadrantNames, hoverOnQuadrant)
-    const { blipsG } = drawBlips(g, radius, blips, hoverOnQuadrant, (quadrant, name) => this.clickOnBlip(quadrant, name))
+    const { blipsG, simulation, simulation2 } = drawBlips(g, radius, blips, hoverOnQuadrant, (quadrant, name) => this.clickOnBlip(quadrant, name))
 
     this.svgRefs.g = g
     this.svgRefs.backgroundG = backgroundG
     this.svgRefs.quadrantLabelsG = quadrantLabelsG
     this.svgRefs.blipsG = blipsG
+    this.svgRefs.simulation = simulation
+    this.svgRefs.simulation2 = simulation2
+
+    if (smallMedia) {
+      this.svgRefs.simulation.stop()
+      this.svgRefs.simulation2.stop()
+    }
   }
 
   componentDidUpdate(prevProps) {
-    const { blips } = this.props
+    const { blips, smallMedia } = this.props
     const quadrantNames = [...new Set(blips.map(blip => blip.quadrant))]
     const { radius } = this
 
@@ -77,12 +84,25 @@ class Radar extends Component {
       if (this.svgRefs.blipsG) {
         this.svgRefs.blipsG.remove()
       }
+      if (this.svgRefs.simulation) {
+        this.svgRefs.simulation.stop()
+      }
+      if (this.svgRefs.simulation2) {
+        this.svgRefs.simulation2.stop()
+      }
       const hoverOnQuadrant = quadrantIndex => this.setState({ hoveredQuadrantIndex: quadrantIndex })
 
       const { quadrantLabelsG } = drawQuadrantLabels(this.svgRefs.g, radius, quadrantNames, hoverOnQuadrant)
-      const { blipsG } = drawBlips(this.svgRefs.g, radius, blips, hoverOnQuadrant, (quadrant, name) => this.clickOnBlip(quadrant, name))
+      const { blipsG, simulation, simulation2 } = drawBlips(this.svgRefs.g, radius, blips, hoverOnQuadrant, (quadrant, name) => this.clickOnBlip(quadrant, name))
       this.svgRefs.quadrantLabelsG = quadrantLabelsG
       this.svgRefs.blipsG = blipsG
+      this.svgRefs.simulation = simulation
+      this.svgRefs.simulation2 = simulation2
+    }
+
+    if (smallMedia !== prevProps.smallMedia && smallMedia) {
+      this.svgRefs.simulation.stop()
+      this.svgRefs.simulation2.stop()
     }
   }
 
@@ -90,7 +110,7 @@ class Radar extends Component {
   }
 
   render() {
-    const { classes, blips } = this.props
+    const { classes, blips, smallMedia } = this.props
     const { hoveredQuadrantIndex, clickedBlip } = this.state
     const { divId, svgId } = this
     const blipsGroupByQuadrant = blips.reduce((acc, cur, idx) => {
@@ -150,7 +170,8 @@ class Radar extends Component {
 }
 
 Radar.propTypes = {
-  blips: PropTypes.arrayOf(PropTypes.object).isRequired
+  blips: PropTypes.arrayOf(PropTypes.object).isRequired,
+  smallMedia: PropTypes.bool.isRequired,
 }
 
 

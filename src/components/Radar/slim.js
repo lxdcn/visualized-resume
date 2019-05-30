@@ -11,8 +11,6 @@ import drawQuadrantLabels from './d3/draw-slim-quadrant-labels'
 
 const styles = theme => ({
   root: {
-    // backgroundColor: '#f3f9fe',
-    // position: 'absolute',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -55,7 +53,9 @@ class Radar extends Component {
     const { blips } = this.props
     const quadrantNames = [...new Set(blips.map(blip => blip.quadrant))]
 
-    const raderWidth = Math.min(window.innerWidth, 600)
+    const DEFAULT_WIDTH = 600
+    const SLIM_WIDTH_PADDING = 20
+    const raderWidth = Math.min(window.innerWidth - SLIM_WIDTH_PADDING, DEFAULT_WIDTH)
     const raderHeight = raderWidth * (6 / 8)
     this.radius = Math.min(raderWidth/2, raderHeight/2) * 0.9
 
@@ -158,7 +158,7 @@ class Radar extends Component {
 }
 
 Radar.propTypes = {
-  blips: PropTypes.arrayOf(PropTypes.object).isRequired
+  blips: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
 
