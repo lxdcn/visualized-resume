@@ -3,7 +3,7 @@ export const quadrantLabelX = (radius, i) => Math.sin(Math.PI / 4) * radius * (i
 export const quadrantLabelY = (radius, i) => Math.sin(Math.PI / 4) * radius * (i === 1 || i === 2 ? 1 : -1)
 export const slimLabelRadius = radius => radius * 0.4
 
-export default (g, radius, quadrantNames, initialClickedQuadrant, hoverOnQuadrant) => {
+export default (g, radius, quadrantNames, initialClickedQuadrant) => {
   const quadrantLabelsG = g.append('g').attr('class', 'quadrant-labels')
   const eachQuadrantLabel = quadrantLabelsG.selectAll('text')
                                            .data(quadrantNames)

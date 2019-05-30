@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 
-const RADAR_WIDTH = 800
 
+const DEFAULT_WIDTH = 200
 const styles = theme => ({
   root: {
     paddingTop: 40,
@@ -17,6 +17,8 @@ const styles = theme => ({
   entries: {
     height: '80%',
     columnGap: 0,
+    width: DEFAULT_WIDTH,
+    columnWidth: DEFAULT_WIDTH,
     // paddingLeft: 10,
   },
   entry: {
@@ -24,7 +26,7 @@ const styles = theme => ({
   },
   quadrantName: {
     textTransform: 'uppercase',
-    width: ({ radarWidth }) => radarWidth / 4,
+    width: DEFAULT_WIDTH,
     transform: ({ flipped }) => flipped ? 'scale(-1, 1)' : null,
     fontWeight: 'bold',
   },
@@ -51,7 +53,7 @@ class DetailSection extends Component {
   }
 
   render() {
-    const { classes, quadrantName, entries, radarWidth, expand, onClickBlip, clickedBlip, } = this.props
+    const { classes, quadrantName, entries, expand, onClickBlip, clickedBlip, } = this.props
 
     const expandDesc = entry => clickedBlip && clickedBlip.quadrantIndex === entry.quadrantIndex && clickedBlip.name === entry.name
     const blipDescDynamicStyle = entry => ({
@@ -60,11 +62,11 @@ class DetailSection extends Component {
     })
 
     return (
-      <section className={classes.root} style={{width: expand ? RADAR_WIDTH / 4 : 0}}>
+      <section className={classes.root} style={{width: expand ? DEFAULT_WIDTH : 0}}>
         <Typography variant="h5" className={classes.quadrantName} gutterBottom> {quadrantName} </Typography>
-        <div className={classes.entries} style={{width: radarWidth / 4, columnWidth: radarWidth / 4}}>
-          {entries.map(entry => (
-            <div className={classes.entry} key={entry.key}>
+        <div className={classes.entries}>
+          {entries.map((entry, id) => (
+            <div className={classes.entry} key={id}>
               <Typography
                 variant="subtitle1"
                 className={classes.blipName}
@@ -89,7 +91,6 @@ DetailSection.defaultProps = {
 }
 
 DetailSection.propTypes = {
-  radarWidth: PropTypes.number.isRequired,
   quadrantName: PropTypes.string.isRequired,
   entries: PropTypes.array.isRequired,
   expand: PropTypes.bool.isRequired,
