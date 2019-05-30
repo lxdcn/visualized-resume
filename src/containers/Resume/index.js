@@ -27,7 +27,6 @@ const Resume = props => {
     <div className={classes.root}>
       <SkillSetRadar />
       <ExperienceTimeline />
-      <SideProjects />
     </div>
   )
 }

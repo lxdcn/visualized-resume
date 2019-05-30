@@ -10,7 +10,6 @@ import drawDescBackground from './d3/draw-desc-background'
 
 const moment = require('moment')
 
-const DEFAULT_WIDTH = 800
 const styles = theme => ({
   root: {
     // backgroundColor: '#f3f9fe',
@@ -62,12 +61,17 @@ class Timeline extends Component {
     const { ranges } = this.props
     const yearSeries = this.extractYearSeries(ranges)
 
-    const svg = initateSvg(divId, svgId, DEFAULT_WIDTH, yearSeries.length)
-    const axisRightBoundary = drawAxis(svg, DEFAULT_WIDTH, yearSeries)
-    drawDescBackground(svg, axisRightBoundary, DEFAULT_WIDTH, yearSeries, ranges)
+    const DEFAULT_WIDTH = 800
+    const SLIM_WIDTH_PADDING = 20
+    const svgWidth = Math.min(DEFAULT_WIDTH, window.innerWidth - SLIM_WIDTH_PADDING)
+    // const svgWidth = 400
+
+    const svg = initateSvg(divId, svgId, svgWidth, yearSeries.length)
+    const axisRightBoundary = drawAxis(svg, svgWidth, yearSeries)
+    drawDescBackground(svg, axisRightBoundary, svgWidth, yearSeries, ranges)
 
     this.positionDescDiv(ranges)
-    window.onresize = () => this.positionDescDiv(ranges)
+    // window.onresize = () => this.positionDescDiv(ranges)
   }
 
   render() {
