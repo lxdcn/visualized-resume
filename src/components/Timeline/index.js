@@ -4,8 +4,6 @@ import { withStyles } from '@material-ui/core/styles'
 import { useTheme } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
-import marked from 'marked';
-
 import initateSvg from './d3/initiate-svg'
 import drawAxis from './d3/draw-axis'
 import drawDesc from './d3/draw-desc'
@@ -98,8 +96,6 @@ class Timeline extends Component {
 
   render() {
     const { classes } = this.props
-    const { ranges } = this.props
-    const { descRectLocations } = this.state
     const { divId, svgId } = this
 
     return (

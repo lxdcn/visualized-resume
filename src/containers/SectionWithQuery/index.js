@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withStyles, withWidth } from '@material-ui/core'
-import { isWidthDown } from '@material-ui/core/withWidth'
-import Typography from '@material-ui/core/Typography'
+import { withStyles } from '@material-ui/core'
 import { Query } from 'react-apollo'
 
 import { actions as uiStateActions } from '../../reducers/ui-state'
@@ -58,7 +56,7 @@ class SectionWithQuery extends Component {
   }
 
   render() {
-    const { classes, width: screenWidth, querySucceeded, queryGql, headerText, children } = this.props
+    const { classes, querySucceeded, queryGql, headerText, children } = this.props
     const { querySkip } = this.state
 
     return (
@@ -73,12 +71,6 @@ class SectionWithQuery extends Component {
             return (
               <div className={classes.root}>
                 <Header className={classes.header} text={headerText}/>
-              {/*
-                <Typography variant={isWidthDown('sm', screenWidth) ? 'h4' : 'h2'} className={classes.header} gutterBottom>
-                  {headerText}
-                </Typography>
-                */}
-
                 {children(data || {})}
               </div>
             )

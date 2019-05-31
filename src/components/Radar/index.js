@@ -112,7 +112,6 @@ class Radar extends Component {
 
   detailedSection(quadrantIndex) {
     const { blips, smallMedia } = this.props
-    const { width } = this.dimensionalSizes()
     const { highlightedQuadrantIndex, clickedBlip } = this.state
 
     const quadrantNames = [...new Set(blips.map(blip => blip.quadrant))]
@@ -142,10 +141,8 @@ class Radar extends Component {
 
 
   render() {
-    const { classes, blips, smallMedia } = this.props
-    const { highlightedQuadrantIndex, clickedBlip } = this.state
+    const { classes, smallMedia } = this.props
     const { divId, svgId } = this
-    const { width } = this.dimensionalSizes()
 
     const smallMediaRootStyle = {
       flexDirection: 'column',
