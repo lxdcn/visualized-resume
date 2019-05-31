@@ -1,10 +1,9 @@
-import { PER_YEAR_HEIGHT, totalHeight } from './constant-and-data-functions'
-
-export default (svg, width, yearSeries) => {
+export default (svg, width, heightPerYear, height, yearSeries) => {
   const ARROW_HEAD_WIDTH = 8
   const ARROW_HEAD_HEIGHT = 8
   const AXIS_WIDTH = 4
   const SCALE_MARKER_WIDTH = 15
+  const ARROW_OVER_HEAD = 0.5
 
   svg.append('defs')
        .append('marker')
@@ -22,7 +21,7 @@ export default (svg, width, yearSeries) => {
   const axisLine = g.append('line')
                     .attr('class', 'axis')
                     .attr('x1', AXIS_WIDTH / 2)
-                    .attr('y1', totalHeight(yearSeries.length))
+                    .attr('y1', height)
                     .attr('x2', AXIS_WIDTH / 2)
                     .attr('y2', ARROW_HEAD_HEIGHT * 2)
                     .attr('stroke', 'black')
@@ -37,15 +36,15 @@ export default (svg, width, yearSeries) => {
 
   const eachScaleMarker = eachScale.append('line')
                                    .attr('x1', 0)
-                                   .attr('y1', (d, i) => (i + 1) * PER_YEAR_HEIGHT)
+                                   .attr('y1', (d, i) => (i + ARROW_OVER_HEAD) * heightPerYear)
                                    .attr('x2', SCALE_MARKER_WIDTH)
-                                   .attr('y2', (d, i) => (i + 1) * PER_YEAR_HEIGHT)
+                                   .attr('y2', (d, i) => (i + ARROW_OVER_HEAD) * heightPerYear)
                                    .attr('stroke-width', 1)
                                    .attr('stroke', 'black')
 
   const eachScaleText = eachScale.append('text')
                                  .attr('x', 0)
-                                 .attr('y', (d, i) => (i + 1) * PER_YEAR_HEIGHT)
+                                 .attr('y', (d, i) => (i + ARROW_OVER_HEAD) * heightPerYear)
                                  .text(d => d)
   const scaleTextBBox = index => eachScaleText.nodes()[index].getBBox()
 

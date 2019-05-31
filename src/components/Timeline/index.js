@@ -17,7 +17,7 @@ const styles = theme => ({
     // backgroundColor: '#f3f9fe',
   },
   descDiv: {
-    paddingLeft: 50,
+    paddingLeft: ({ smallMedia }) => smallMedia ? 20 : 50,
     paddingRight: 10,
     height: '100%',
     width: '100%',
@@ -51,30 +51,35 @@ class Timeline extends Component {
   }
 
   dimensionalSizes() {
-    const { smallMedia } = this.props
-    const DEFAULT_WIDTH = 800
+    const { ranges, smallMedia } = this.props
+    const yearSeries = this.extractYearSeries(ranges)
 
-    let width = DEFAULT_WIDTH
+    const DEFAULT_WIDTH = 800
+    const DEFAULT_HEIGHT_PER_YEAR = 140
+
+    let width = DEFAULT_WIDTH, heightPerYear = DEFAULT_HEIGHT_PER_YEAR
 
     if (smallMedia) {
       const SLIM_DEFAULT_WIDTH = 500
       const SLIM_WIDTH_PADDING = 20 //TODO
+
       width = Math.min(window.innerWidth - SLIM_WIDTH_PADDING, SLIM_DEFAULT_WIDTH)
+      heightPerYear = DEFAULT_HEIGHT_PER_YEAR * (DEFAULT_WIDTH / width) * 0.8
     }
 
-    return { width }
+    const height = yearSeries.length * heightPerYear
+    return { width, heightPerYear, height }
   }
 
   drawSvg() {
     const { divId, svgId } = this
     const { ranges, classes } = this.props
     const yearSeries = this.extractYearSeries(ranges)
+    const { width, heightPerYear, height } = this.dimensionalSizes()
 
-    const { width } = this.dimensionalSizes()
-
-    const svg = initateSvg(divId, svgId, width, yearSeries.length)
-    const axisRightBoundary = drawAxis(svg, width, yearSeries)
-    drawDesc(svg, axisRightBoundary, width, yearSeries, ranges, {
+    const svg = initateSvg(divId, svgId, width, height)
+    const axisRightBoundary = drawAxis(svg, width, heightPerYear, height, yearSeries)
+    drawDesc(svg, axisRightBoundary, width, heightPerYear, yearSeries, ranges, {
       descDiv: classes.descDiv
     })
   }

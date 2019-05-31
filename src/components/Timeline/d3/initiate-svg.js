@@ -1,8 +1,6 @@
 import * as d3 from 'd3'
-import { totalHeight } from './constant-and-data-functions'
 
-
-export default (divId, svgId, width, howManyYears) => {
+export default (divId, svgId, width, height) => {
   const _divId = `#${divId}`
   const _svgId = `#${svgId}`
 
@@ -11,6 +9,6 @@ export default (divId, svgId, width, howManyYears) => {
   const svg = d3.select(_divId).append('svg')
                                .attr('id', svgId)
                                .attr('width', width)
-                               .attr('height', totalHeight(howManyYears))
+                               .attr('height', height)
   return svg
 }
