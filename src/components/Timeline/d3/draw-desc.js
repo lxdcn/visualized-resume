@@ -1,4 +1,5 @@
 import * as d3 from 'd3'
+import marked from 'marked'
 
 import { PER_YEAR_HEIGHT, addMonthDiffToRanges } from './constant-and-data-functions'
 
@@ -57,8 +58,8 @@ export default (svg, axisRightBoundary, width, yearSeries, ranges, styles) => {
   const eachDescDiv = eachForeignObject.append('xhtml:div')
                                          .attr('class', styles.descDiv)
 
-  eachDescDiv.append('h1')
-             .text('text')
+  eachDescDiv.append('div')
+             .html(({ desc }) => marked(desc))
 
   eachDesc.append('line')
           .attr('class', 'ceiling')

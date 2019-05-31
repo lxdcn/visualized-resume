@@ -15,8 +15,9 @@ const ALL_RANGES_QUERY = gql`
 `
 
 const defaultRanges = [
-  { from: '2012-07', to: '2014-03', desc: '# hello, world' },
-  { from: '2014-07', to: '2019-01', desc: '## world, hello' },
+  { from: '2017-09', to: '2019-06', desc: '' },
+  { from: '2014-01', to: '2017-03', desc: '' },
+  { from: '2012-03', to: '2014-01', desc: '' },
 ]
 
 export default () => (

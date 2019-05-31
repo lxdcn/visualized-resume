@@ -17,8 +17,13 @@ const styles = theme => ({
     // backgroundColor: '#f3f9fe',
   },
   descDiv: {
-    padding: 20,
     paddingLeft: 50,
+    paddingRight: 10,
+    height: '100%',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    // alignItems: 'center',
   }
 })
 

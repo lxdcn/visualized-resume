@@ -1,6 +1,6 @@
 const moment = require('moment')
 
-export const PER_YEAR_HEIGHT = 100
+export const PER_YEAR_HEIGHT = 140
 export const totalHeight = howManyYears => (howManyYears + 1) * PER_YEAR_HEIGHT
 
 export const addMonthDiffToRanges = (ranges, maxYear) => ranges.map(({ from, to, desc }) => ({
