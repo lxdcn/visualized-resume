@@ -53,9 +53,9 @@ class Radar extends Component {
 
   dimensionalSizes() {
     const { smallMedia } = this.props
-    const BIG_RADAR_WIDTH = 800, BIG_RADAR_HEIGHT = 600
+    const DEFAULT_RADAR_WIDTH = 800, DEFAULT_RADAR_HEIGHT = 600
 
-    let width = BIG_RADAR_WIDTH, height = BIG_RADAR_HEIGHT
+    let width = DEFAULT_RADAR_WIDTH, height = DEFAULT_RADAR_HEIGHT
     let radius = Math.min(width / 2, height / 2) * 0.95
 
     if (smallMedia) {
@@ -69,7 +69,7 @@ class Radar extends Component {
     return { width, height, radius }
   }
 
-  drawRadar() {
+  drawSvg() {
     const { divId, svgId } = this
     const { blips, smallMedia } = this.props
     const { highlightedQuadrantIndex } = this.state
@@ -99,14 +99,14 @@ class Radar extends Component {
   }
 
   componentDidMount() {
-    this.drawRadar()
+    this.drawSvg()
   }
 
   componentDidUpdate(prevProps) {
     const { blips, smallMedia } = this.props
 
     if (blips !== prevProps.blips || smallMedia !== prevProps.smallMedia) {
-      this.drawRadar()
+      this.drawSvg()
     }
   }
 
@@ -177,11 +177,11 @@ Radar.propTypes = {
   smallMedia: PropTypes.bool.isRequired,
 }
 
-const ResponsiveRadar = props => (
-  <Radar
+export const StyledRadar = withStyles(styles)(Radar)
+
+export default props => (
+  <StyledRadar
     {...props}
     smallMedia={useMediaQuery(useTheme().breakpoints.down('sm'))}
   />
 )
-
-export default withStyles(styles)(ResponsiveRadar)

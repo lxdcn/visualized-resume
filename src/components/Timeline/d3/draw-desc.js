@@ -1,9 +1,9 @@
 import * as d3 from 'd3'
 
-import { PER_YEAR_HEIGHT, rangesToMonthDiff } from './constant-and-data-functions'
+import { PER_YEAR_HEIGHT, addMonthDiffToRanges } from './constant-and-data-functions'
 
 
-export default (svg, axisRightBoundary, width, yearSeries, ranges) => {
+export default (svg, axisRightBoundary, width, yearSeries, ranges, styles) => {
   const maxYear = Math.max(...yearSeries)
   const maxYearY = PER_YEAR_HEIGHT
   const PER_MOMTH_HEIGHT = PER_YEAR_HEIGHT / 12
@@ -33,7 +33,7 @@ export default (svg, axisRightBoundary, width, yearSeries, ranges) => {
 
 
   const eachDesc = g.selectAll('rect.range')
-                    .data(rangesToMonthDiff(ranges, maxYear))
+                    .data(addMonthDiffToRanges(ranges, maxYear))
                     .enter()
                       .append('g')
                       .attr('class', 'range')
@@ -46,6 +46,20 @@ export default (svg, axisRightBoundary, width, yearSeries, ranges) => {
           .attr('width', width - axisRightBoundary - COLOR_PADDING_RIGHT)
           .attr('height', d => d.monthDiffWithEachOther * PER_MOMTH_HEIGHT)
           .style('fill',  (d, i) => `url(#lineargradient-desc-rect-${i})`)
+
+  const eachForeignObject = eachDesc.append('foreignObject')
+                                    .attr('id', (d, i) => `desc-foreign-object-${i}`)
+                                    .attr('x', axisRightBoundary)
+                                    .attr('y', d => maxYearY + d.monthDiffWithMaxYear * PER_MOMTH_HEIGHT)
+                                    .attr('width', width - axisRightBoundary - COLOR_PADDING_RIGHT)
+                                    .attr('height', d => d.monthDiffWithEachOther * PER_MOMTH_HEIGHT)
+
+  const eachDescDiv = eachForeignObject.append('xhtml:div')
+                                         .attr('class', styles.descDiv)
+
+  eachDescDiv.append('h1')
+             .text('text')
+
   eachDesc.append('line')
           .attr('class', 'ceiling')
           .attr('x1', axisRightBoundary)

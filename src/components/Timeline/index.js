@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import { useTheme } from '@material-ui/core/styles'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 import marked from 'marked';
 
 import initateSvg from './d3/initiate-svg'
 import drawAxis from './d3/draw-axis'
-import drawDescBackground from './d3/draw-desc-background'
+import drawDesc from './d3/draw-desc'
 
 const moment = require('moment')
 
@@ -15,7 +17,6 @@ const styles = theme => ({
     // backgroundColor: '#f3f9fe',
   },
   descDiv: {
-    position: 'absolute',
     padding: 20,
     paddingLeft: 50,
   }
@@ -44,34 +45,45 @@ class Timeline extends Component {
     return yearSeries
   }
 
-  positionDescDiv(ranges) {
-    this.setState({
-      descRectLocations: ranges.map((_, index) => document.getElementById(`desc-rect-${index}`).getBoundingClientRect())
-                               .map(({ top, left, height, width }) => ({
-                                  top: top + window.pageYOffset || document.documentElement.scrollTop,
-                                  left: left + window.pageXOffset || document.documentElement.scrollLeft,
-                                  height,
-                                  width
-                                }))
+  dimensionalSizes() {
+    const { smallMedia } = this.props
+    const DEFAULT_WIDTH = 800
+
+    let width = DEFAULT_WIDTH
+
+    if (smallMedia) {
+      const SLIM_DEFAULT_WIDTH = 500
+      const SLIM_WIDTH_PADDING = 20 //TODO
+      width = Math.min(window.innerWidth - SLIM_WIDTH_PADDING, SLIM_DEFAULT_WIDTH)
+    }
+
+    return { width }
+  }
+
+  drawSvg() {
+    const { divId, svgId } = this
+    const { ranges, classes } = this.props
+    const yearSeries = this.extractYearSeries(ranges)
+
+    const { width } = this.dimensionalSizes()
+
+    const svg = initateSvg(divId, svgId, width, yearSeries.length)
+    const axisRightBoundary = drawAxis(svg, width, yearSeries)
+    drawDesc(svg, axisRightBoundary, width, yearSeries, ranges, {
+      descDiv: classes.descDiv
     })
   }
 
   componentDidMount() {
-    const { divId, svgId } = this
-    const { ranges } = this.props
-    const yearSeries = this.extractYearSeries(ranges)
+    this.drawSvg()
+  }
 
-    const DEFAULT_WIDTH = 800
-    const SLIM_WIDTH_PADDING = 20
-    const svgWidth = Math.min(DEFAULT_WIDTH, window.innerWidth - SLIM_WIDTH_PADDING)
-    // const svgWidth = 400
+  componentDidUpdate(prevProps) {
+    const { ranges, smallMedia } = this.props
 
-    const svg = initateSvg(divId, svgId, svgWidth, yearSeries.length)
-    const axisRightBoundary = drawAxis(svg, svgWidth, yearSeries)
-    drawDescBackground(svg, axisRightBoundary, svgWidth, yearSeries, ranges)
-
-    this.positionDescDiv(ranges)
-    // window.onresize = () => this.positionDescDiv(ranges)
+    if (ranges !== prevProps.ranges || smallMedia !== prevProps.smallMedia) {
+      this.drawSvg()
+    }
   }
 
   render() {
@@ -83,18 +95,21 @@ class Timeline extends Component {
     return (
       <div id={divId} className={classes.root}>
         <svg id={svgId}></svg>
-        {ranges.map((range, index) => (
-          <div key={index} className={classes.descDiv} id={`desc-div-${index}`}
-               style={{  ...descRectLocations[index]  }}
-               dangerouslySetInnerHTML={{ __html: range.desc ? marked(range.desc) : ''}} />
-        ))}
       </div>
     )
   }
 }
 
 Timeline.propTypes = {
-  ranges: PropTypes.arrayOf(PropTypes.object).isRequired
+  ranges: PropTypes.arrayOf(PropTypes.object).isRequired,
+  smallMedia: PropTypes.bool.isRequired,
 }
 
-export default withStyles(styles)(Timeline)
+export const StyledTimeline = withStyles(styles)(Timeline)
+
+export default props => (
+  <StyledTimeline
+    {...props}
+    smallMedia={useMediaQuery(useTheme().breakpoints.down('sm'))}
+  />
+)
