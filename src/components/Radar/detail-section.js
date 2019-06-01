@@ -35,6 +35,7 @@ const styles = theme => ({
   },
   desc: {
     overflow: 'hidden',
+    userSelect: 'text',
     wordWrap: 'break-word',
     marginTop: 0,
     transition: 'max-height 0.3s linear, margin-bottom 0.3s linear',

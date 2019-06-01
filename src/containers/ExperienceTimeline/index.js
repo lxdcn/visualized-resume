@@ -21,7 +21,7 @@ const defaultRanges = [
 ]
 
 export default () => (
-  <SectionWithQuery queryGql={ALL_RANGES_QUERY} headerText='h3. Heading'>
+  <SectionWithQuery queryGql={ALL_RANGES_QUERY} headerText='Experience Timeline'>
     {({ allRanges }) => <Timeline ranges={ allRanges || defaultRanges } />}
   </SectionWithQuery>
 )

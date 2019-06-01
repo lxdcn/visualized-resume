@@ -23,7 +23,7 @@ const defaultBlips = [
 ]
 
 export default () => (
-  <SectionWithQuery queryGql={ALL_BLIPS_QUERY} headerText='h3. Heading'>
+  <SectionWithQuery queryGql={ALL_BLIPS_QUERY} headerText='Skill Set Radar'>
     {({ allBlips }) => <Radar blips={ allBlips || defaultBlips } />}
   </SectionWithQuery>
 )
