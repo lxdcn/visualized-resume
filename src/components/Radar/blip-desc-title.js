@@ -1,7 +1,6 @@
 import React from 'react'
 import Badge from '@material-ui/core/Badge'
 import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
 import { makeStyles } from '@material-ui/styles'
 import grey from '@material-ui/core/colors/grey'
 import indigo from '@material-ui/core/colors/indigo'

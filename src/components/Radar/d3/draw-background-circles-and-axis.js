@@ -57,7 +57,7 @@ export default (g, width, height, radius, quadrantNames, hoverOnQuadrant) => {
          .data((d, i) => [{d, i}, {d, i}, {d, i}])
          .enter().append('path')
          .attr('class', ({ d }, i) => `annulus-${i}`)
-         .style('fill', '#DBDBDB')
+         .style('fill', '#AAAAAA')
          .attr('d', ({ d }, i) => arcConfig(i)(d) )
          .style('fill-opacity', (d, i) => (0.7 - 0.2 * i))
          .style('z-index', 0)
