@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core'
+
+import { AUTH_SESSION_STORAGE_KEY } from '../../auth'
 import FormControl from '@material-ui/core/FormControl'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import TextField from '@material-ui/core/TextField'
@@ -30,10 +32,11 @@ const styles = {
   }
 }
 
-class LoginCover extends Component {
+export class LoginCover extends Component {
   keyTyped(value) {
     const { sendRequest } = this.props
     if (validKey(value)) {
+      sessionStorage.setItem(AUTH_SESSION_STORAGE_KEY, value)
       sendRequest()
     }
   }
@@ -75,7 +78,9 @@ const mapDispatchToProps = {
   ...uiStateActions
 }
 
+export const StyledLoginCover = withStyles(styles)(LoginCover)
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(LoginCover))
+)(StyledLoginCover)

@@ -16,7 +16,7 @@ const ALL_BLIPS_QUERY = gql`
 `
 
 const defaultBlips = [
-  { quadrant: 'I', name: 'a', score: 10, },
+  { quadrant: 'I', name: '', score: 10, },
   { quadrant: 'IV', name: '', score: 10, },
   { quadrant: 'III', name: '', score: 10, },
   { quadrant: 'II', name: '', score: 10, },
