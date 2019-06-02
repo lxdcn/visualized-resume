@@ -1,57 +1,103 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
-import Button from '@material-ui/core/Button'
+import Link from '@material-ui/core/Link'
+import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
 
-const useStyles = makeStyles({
+const DEFAULT_CARD_WIDTH = 400
+const useStyles = makeStyles(theme => ({
   card: {
-    minWidth: 275,
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+  },
+  cardContent: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  title: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginBottom: theme.spacing(1),
   },
   bullet: {
     display: 'inline-block',
     margin: '0 2px',
     transform: 'scale(0.8)',
   },
-  title: {
-    fontSize: 14,
-  },
   pos: {
     marginBottom: 12,
   },
-})
+}))
 
-const ProjectCard = () => {
-  const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
+const ProjectCard = ({ project }) => {
+  const classes = useStyles()
+  const { name, link, githubUrls, desc, stacks } = project
 
-  return (
-    <Card className={classes.card}>
+  const width = Math.min(DEFAULT_CARD_WIDTH, window.innerWidth - 10)
+
+  console.log(link)
+  return ( // TODO Refactor me
+    <Card className={classes.card} style={{ width }}>
       <CardContent>
-        <Typography className={classes.title} color='textSecondary' gutterBottom>
-          Word of the Day
-        </Typography>
-        <Typography variant='h5' component='h2'>
-          be
-          {bull}
-          nev
-          {bull}o{bull}
-          lent
-        </Typography>
-        <Typography className={classes.pos} color='textSecondary'>
-          adjective
-        </Typography>
-        <Typography variant='body2' component='p'>
-          well meaning and kindly.
-          <br />
-          {'a benevolent smile'}
-        </Typography>
+        <div className={classes.title}>
+          {link ? (
+            <Link
+              href={link}
+              color='textPrimary'
+              variant='h5'
+              display='inline'
+              style={{ cursor: 'pointer' }}
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              {name}
+            </Link>
+          ): (
+            <Typography variant='h5' display='inline'>
+              {name}
+            </Typography>
+          )}
+          <span>
+            {githubUrls.map((githubUrl, idx) => (
+              <Link
+                key={idx}
+                href={githubUrl}
+                color='textPrimary'
+                variant='h5'
+                display='inline'
+                style={{ cursor: 'pointer', marginLeft: 4}}
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <img src='/github-mark.png' alt='Github' width={20} height={20}/>
+              </Link>
+            ))}
+          </span>
+        </div>
+        <Divider />
+        <br />
+
+        {desc && (
+          <Fragment>
+            <Typography variant='body2'> {desc} </Typography>
+            <br />
+          </Fragment>
+        )}
+
+        <Typography variant='body1'> Stacks: </Typography>
+
+        <ul>
+          {stacks.map((stack, idx) => (
+            <li>
+              <Typography variant='body2'>{stack}</Typography>
+            </li>
+          ))}
+        </ul>
       </CardContent>
-      <CardActions>
-        <Button size='small'>Learn More</Button>
-      </CardActions>
     </Card>
   )
 }

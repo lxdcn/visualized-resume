@@ -8,31 +8,27 @@ import SectionWithQuery from '../SectionWithQuery'
 const QUERY = gql`
   query {
     allProjects {
-      from
-      to
+      name
+      link
       desc
+      githubUrls
+      stacks
     }
   }
 `
 
 const defaultProjects = [
   {
-    name: '(This Web App)',
+    name: ' ',
     desc: '',
-    githubUrls: [
-      'https://example.com'
-    ],
-    stacks: [
-    ]
+    githubUrls: ['https://example.com'],
+    stacks: [' ', ' ', ' ', ' ', ' ', ' ',]
   },
   {
-    name: '(This Web App)',
+    name: ' ',
     desc: '',
-    githubUrls: [
-      'https://example.com'
-    ],
-    stacks: [
-    ]
+    githubUrls: ['https://example.com'],
+    stacks: [' ', ' ', ' ', ' ', ' ', ' ',]
   },
 
 ]
@@ -41,7 +37,8 @@ const useStyles = makeStyles({
   cards: {
     display: 'flex',
     flexDirection: 'row',
-    width: 800,
+    alignItems: 'flex-start',
+    justifyContent: 'space-around',
     flexWrap: 'wrap',
   }
 })
@@ -50,7 +47,7 @@ export default () => {
   const classes = useStyles()
 
   return (
-    <SectionWithQuery queryGql={QUERY} headerText='h3. Heading'>
+    <SectionWithQuery queryGql={QUERY} headerText='Side Projects I built'>
       {({ allProjects }) => (
         <div className={classes.cards}>
           {(allProjects || defaultProjects).map(
