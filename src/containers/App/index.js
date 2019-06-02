@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core'
+import Typography from '@material-ui/core/Typography'
 import queryString from 'query-string'
 
 import { AUTH_SESSION_STORAGE_KEY } from '../../auth'
@@ -50,6 +51,7 @@ class App extends Component {
         {showLayer === LAYERS.LOGIN && <LoginCover />}
         {showLayer === LAYERS.LOADING && <LoadingCover />}
         <Resume />
+        <Typography variant="body2" gutterBottom>Copyleft @ 2019</Typography>
       </div>
     )
   }
