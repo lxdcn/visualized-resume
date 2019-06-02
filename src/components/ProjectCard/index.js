@@ -36,10 +36,10 @@ const useStyles = makeStyles(theme => ({
 const ProjectCard = ({ project }) => {
   const classes = useStyles()
   const { name, link, githubUrls, desc, stacks } = project
+  const SLIM_CARD_MARGIN = 20
 
-  const width = Math.min(DEFAULT_CARD_WIDTH, window.innerWidth - 10)
+  const width = Math.min(DEFAULT_CARD_WIDTH, window.innerWidth - SLIM_CARD_MARGIN)
 
-  console.log(link)
   return ( // TODO Refactor me
     <Card className={classes.card} style={{ width }}>
       <CardContent>
