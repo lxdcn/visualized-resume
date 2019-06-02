@@ -2,9 +2,14 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
+import { useTheme } from '@material-ui/core/styles'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 
+import BlipDescTitle from './blip-desc-title'
 
 const DEFAULT_WIDTH = 200
+const SLIM_WIDTH = 300
+
 const styles = theme => ({
   root: {
     paddingTop: 40,
@@ -17,8 +22,8 @@ const styles = theme => ({
   entries: {
     height: '80%',
     columnGap: 0,
-    width: DEFAULT_WIDTH,
-    columnWidth: DEFAULT_WIDTH,
+    width: ({ smallMedia }) => smallMedia ? SLIM_WIDTH : DEFAULT_WIDTH,
+    columnWidth: ({ smallMedia }) => smallMedia ? SLIM_WIDTH : DEFAULT_WIDTH,
     // paddingLeft: 10,
   },
   entry: {
@@ -26,12 +31,9 @@ const styles = theme => ({
   },
   quadrantName: {
     textTransform: 'uppercase',
-    width: DEFAULT_WIDTH,
+    width: ({ smallMedia }) => smallMedia ? SLIM_WIDTH : DEFAULT_WIDTH,
     transform: ({ flipped }) => flipped ? 'scale(-1, 1)' : null,
     fontWeight: 'bold',
-  },
-  blipName: {
-    cursor: 'pointer',
   },
   desc: {
     overflow: 'hidden',
@@ -54,7 +56,7 @@ class DetailSection extends Component {
   }
 
   render() {
-    const { classes, quadrantName, entries, expand, onClickBlip, clickedBlip, } = this.props
+    const { classes, quadrantName, entries, expand, onClickBlip, clickedBlip, smallMedia } = this.props
 
     const expandDesc = entry => clickedBlip && clickedBlip.quadrantIndex === entry.quadrantIndex && clickedBlip.name === entry.name
     const blipDescDynamicStyle = entry => ({
@@ -63,18 +65,17 @@ class DetailSection extends Component {
     })
 
     return (
-      <section className={classes.root} style={{width: expand ? DEFAULT_WIDTH : 0}}>
+      <section
+        className={classes.root}
+        style={{
+          width: expand ? ( smallMedia ? SLIM_WIDTH : DEFAULT_WIDTH ) : 0
+        }}
+        >
         <Typography variant="h5" className={classes.quadrantName} gutterBottom> {quadrantName} </Typography>
         <div className={classes.entries}>
           {entries.map((entry, id) => (
             <div className={classes.entry} key={id}>
-              <Typography
-                variant="subtitle1"
-                className={classes.blipName}
-                onClick={() => onClickBlip(entry.quadrant, entry.name)}
-              >
-                {entry.name}
-              </Typography>
+              <BlipDescTitle entry={entry} onClick={() => onClickBlip(entry.quadrant, entry.name)} />
               {entry.desc &&
                 <p className={classes.desc} style={blipDescDynamicStyle(entry)}> {entry.desc} </p>
               }
@@ -98,6 +99,14 @@ DetailSection.propTypes = {
   onClickBlip: PropTypes.func,
   clickedBlip: PropTypes.object,
   flipped: PropTypes.bool,
+  smallMedia: PropTypes.bool.isRequired,
 }
 
-export default withStyles(styles)(DetailSection)
+export const StyledDetailSection = withStyles(styles)(DetailSection)
+
+export default props => (
+  <StyledDetailSection
+    {...props}
+    smallMedia={useMediaQuery(useTheme().breakpoints.down('sm'))}
+  />
+)

@@ -10,6 +10,7 @@ const ALL_BLIPS_QUERY = gql`
       quadrant
       name
       score
+      badge
       desc
     }
   }
