@@ -88,7 +88,7 @@ const ProjectCard = ({ project }) => {
           </Fragment>
         )}
 
-        <Typography variant='body1'> Stacks: </Typography>
+        <Typography variant='body1'> Stack: </Typography>
 
         <ul>
           {stacks.map((stack, idx) => (
