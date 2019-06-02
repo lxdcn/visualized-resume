@@ -4,7 +4,7 @@ import Adapter from 'enzyme-adapter-react-16'
 
 import { AUTH_SESSION_STORAGE_KEY } from '../../../auth'
 
-import { App } from '../index'
+import { StyledApp as App } from '../index'
 import { LAYERS } from '../../../reducers/ui-state'
 
 Enzyme.configure({ adapter: new Adapter() })
@@ -21,7 +21,7 @@ describe('<App />', () => {
     }
     sessionStorage.removeItem(AUTH_SESSION_STORAGE_KEY)
 
-    const wrapper = shallow(<App classes={{}} {...props} />)
+    const wrapper = shallow(<App {...props} />).dive()
 
     expect(showLoginDirectly.mock.calls.length).toBe(1)
     expect(sendRequest.mock.calls.length).toBe(0)
@@ -38,7 +38,7 @@ describe('<App />', () => {
     }
     sessionStorage.setItem(AUTH_SESSION_STORAGE_KEY, 'value')
 
-    const wrapper = shallow(<App classes={{}} {...props} />)
+    const wrapper = shallow(<App {...props} />).dive()
 
     expect(sendRequest.mock.calls.length).toBe(1)
     expect(showLoginDirectly.mock.calls.length).toBe(0)
@@ -57,7 +57,7 @@ describe('<App />', () => {
     }
     sessionStorage.setItem(AUTH_SESSION_STORAGE_KEY, 'value')
     const spy = jest.spyOn(window.sessionStorage.__proto__, 'setItem')
-    const wrapper = shallow(<App classes={{}} {...props} />)
+    const wrapper = shallow(<App {...props} />).dive()
 
     expect(sendRequest.mock.calls.length).toBe(1)
     expect(showLoginDirectly.mock.calls.length).toBe(0)
@@ -80,7 +80,7 @@ describe('<App />', () => {
     }
     const spy = jest.spyOn(window.history.__proto__, 'pushState')
 
-    const wrapper = shallow(<App classes={{}} {...props} />)
+    const wrapper = shallow(<App {...props} />).dive()
     wrapper.setProps({ classes: {} })
     expect(spy).not.toHaveBeenCalled()
 

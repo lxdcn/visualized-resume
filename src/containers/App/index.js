@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core'
 import queryString from 'query-string'
+
 import { AUTH_SESSION_STORAGE_KEY } from '../../auth'
 import Resume from '../Resume'
 import LoginCover from '../LoginCover'
@@ -18,7 +19,7 @@ const styles = {
   },
 }
 
-export class App extends Component {
+class App extends Component {
   componentDidMount() {
     const { location, sendRequest, showLoginDirectly } = this.props
     const queryParams = queryString.parse(location.search)
@@ -63,7 +64,9 @@ const mapDispatchToProps = {
   ...uiStateActions
 }
 
+export const StyledApp = withStyles(styles)(App)
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(App))
+)(StyledApp)
