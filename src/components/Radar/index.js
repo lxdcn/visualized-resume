@@ -20,6 +20,11 @@ const styles = theme => ({
   },
 })
 
+const isSafari = () => {
+  const ua = navigator.userAgent.toLowerCase()
+  return ua.indexOf('safari') > -1 && ua.indexOf('chrome') === -1
+}
+
 class Radar extends Component {
   constructor(props) {
     super(props)
@@ -86,7 +91,7 @@ class Radar extends Component {
 
     const { g } = initateSvg(divId, svgId, width, height)
 
-    if (smallMedia) {
+    if (smallMedia || isSafari()) {
       drawSlimBackgroundCirclesAndAxis(g, radius, quadrantNames, highlightedQuadrantIndex, highlightQuadrant)
       drawSlimQuadrantLabels(g, radius, quadrantNames, highlightedQuadrantIndex)
     } else {

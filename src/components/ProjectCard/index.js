@@ -92,7 +92,7 @@ const ProjectCard = ({ project }) => {
 
         <ul>
           {stacks.map((stack, idx) => (
-            <li>
+            <li key={idx}>
               <Typography variant='body2'>{stack}</Typography>
             </li>
           ))}
