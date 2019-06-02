@@ -122,7 +122,7 @@ export default (g, radius, blips, hoverOnQuadrant, clickOnBlip) => {
                                                       .attr('cy', d => d.x)
                                                       .attr('fill-opacity', 0)
                                                       .attr('stroke', '#000000')
-                                                      .attr('stroke-opacity', 0.1)
+                                                      .attr('stroke-opacity', 0)
                                                       .attr('dad-name', d => d.dad.name)
 
   const simulation2 = d3.forceSimulation(withPlaceholdingCircles)
