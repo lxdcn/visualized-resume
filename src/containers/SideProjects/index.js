@@ -47,7 +47,7 @@ export default () => {
   const classes = useStyles()
 
   return (
-    <SectionWithQuery queryGql={QUERY} headerText='Side Projects I built'>
+    <SectionWithQuery queryGql={QUERY} headerText='Side Projects Board'>
       {({ allProjects }) => (
         <div className={classes.cards}>
           {(allProjects || defaultProjects).map(
