@@ -152,7 +152,6 @@ class Radar extends Component {
     const smallMediaRootStyle = {
       flexDirection: 'column',
       alignItems: 'center',
-      textAlign: 'center',
     }
 
     return smallMedia ? (

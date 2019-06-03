@@ -8,7 +8,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import BlipDescTitle from './blip-desc-title'
 
 const DEFAULT_WIDTH = 200
-const SLIM_WIDTH = 300
+const SLIM_WIDTH = 200
 
 const styles = theme => ({
   root: {
@@ -24,7 +24,6 @@ const styles = theme => ({
     columnGap: 0,
     width: ({ smallMedia }) => smallMedia ? SLIM_WIDTH : DEFAULT_WIDTH,
     columnWidth: ({ smallMedia }) => smallMedia ? SLIM_WIDTH : DEFAULT_WIDTH,
-    // paddingLeft: 10,
   },
   entry: {
     transform: ({ flipped }) => flipped ? 'scale(-1, 1)' : null,
@@ -34,6 +33,7 @@ const styles = theme => ({
     width: ({ smallMedia }) => smallMedia ? SLIM_WIDTH : DEFAULT_WIDTH,
     transform: ({ flipped }) => flipped ? 'scale(-1, 1)' : null,
     fontWeight: 'bold',
+    textAlign: ({ smallMedia }) => smallMedia ? 'center' : null,
   },
   desc: {
     overflow: 'hidden',
