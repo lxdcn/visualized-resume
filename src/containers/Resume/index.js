@@ -14,11 +14,6 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     alignItems: 'center',
     paddingBottom: 100,
-    filter: ({ showLayer }) => {
-      if (showLayer === LAYERS.LOGIN) return 'blur(4px)'
-      if (showLayer === LAYERS.LOADING) return 'blur(2.5px)'
-      return null
-    },
   }
 })
 
@@ -27,8 +22,6 @@ const Resume = props => {
   return (
     <div className={classes.root}>
       <SkillSetRadar />
-      <ExperienceTimeline />
-      <SideProjects />
     </div>
   )
 }

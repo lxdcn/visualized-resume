@@ -48,8 +48,6 @@ class App extends Component {
     const { showLayer, classes } = this.props
     return (
       <div className={classes.root}>
-        {showLayer === LAYERS.LOGIN && <LoginCover />}
-        {showLayer === LAYERS.LOADING && <LoadingCover />}
         <Resume />
         <Typography variant="body2" gutterBottom>Copyleft @ 2019</Typography>
       </div>
